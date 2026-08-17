@@ -77,6 +77,6 @@ window.DAY1_DATA={
 
 (()=>{const m=window.DAY1_DATA.missions;
   m[1].questions[0].media={file:"Vitsand.jpg",alt:"Playa de Vitsand",caption:"Vitsand · arena clara junto al agua oscura del bosque."};
-  m[4].contexts[0].mediaGallery=[{file:"Alce.jpg",name:"ALCE",alt:"Alce"},{file:"corzo.jpg",name:"CORZO",alt:"Corzo"},{file:"urogallo.jpeg",name:"UROGALLO",alt:"Urogallo"},{file:"lince euroasiatico.jpg",name:"LINCE EUROASIÁTICO",alt:"Lince euroasiático"}];
-  m[4].contexts[1].mediaGallery=[{file:"lince euroasiatico.jpg",name:"LINCE EUROASIÁTICO",alt:"Lince euroasiático"},{file:"Lince_ibérico.jpg",name:"LINCE IBÉRICO",alt:"Lince ibérico"}];
+  m[4].contexts[0].mediaGallery=null;
+  m[4].contexts[1].mediaGallery=null;
 })();
