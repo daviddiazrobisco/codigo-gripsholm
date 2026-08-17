@@ -1,0 +1,16 @@
+{
+  "name":"Código Gripsholm",
+  "short_name":"Gripsholm",
+  "description":"Diez días. Una Carta alterada. Una historia que proteger.",
+  "start_url":"./index.html",
+  "scope":"./",
+  "display":"standalone",
+  "background_color":"#071824",
+  "theme_color":"#071824",
+  "lang":"es",
+  "categories":["education","travel","games"],
+  "icons":[
+    {"src":"assets/icons/icon-192.png","sizes":"192x192","type":"image/png","purpose":"any maskable"},
+    {"src":"assets/icons/icon-512.png","sizes":"512x512","type":"image/png","purpose":"any maskable"}
+  ]
+}

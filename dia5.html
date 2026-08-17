@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#071824">
+  <meta name="description" content="Código Gripsholm · Día 05 · La capital que esperaba una guerra.">
+  <title>Código Gripsholm · Día 05</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="stylesheet" href="styles.css?v=39">
+  <style>
+    .d5-map{position:relative;width:100%;aspect-ratio:420/300;overflow:hidden;border-radius:18px;background:#b9dbe8;border:1px solid #8db8c7}
+    .d5-map svg{width:100%;height:100%;display:block}
+    .d5-map text{font-family:Arial,sans-serif;paint-order:stroke;stroke:#fff;stroke-width:3px;stroke-linejoin:round}
+    .d5-map .water-label,.d5-regional .water-label{stroke:none;fill:#17627d;letter-spacing:.08em}
+    .d5-map .land,.d5-regional .land{fill:#e9e2ca;stroke:#648a96;stroke-width:1.4}
+    .d5-map .lake,.d5-regional .lake{fill:#79bdd4;stroke:#367d97;stroke-width:1.5}
+    .d5-map .route,.d5-regional .route{fill:none;stroke:#d92f48;stroke-width:3;stroke-dasharray:7 5}
+    .d5-map .canal,.d5-regional .canal{fill:none;stroke:#0077ad;stroke-width:4}
+    .d5-map .pin,.d5-regional .pin{fill:#ffcc00;stroke:#092333;stroke-width:2}
+    .d5-regional text{font-family:Arial,sans-serif;paint-order:stroke;stroke:#fff;stroke-width:3px;stroke-linejoin:round}
+    .d5-route-map{position:relative}
+    .d5-route-map .schematic-map{position:absolute;inset:0;width:100%;height:100%;display:block}
+    .d5-route-static .geo-map{margin:0}
+    .d5-route-list{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:12px 0}
+    .d5-route-list button{display:grid;grid-template-columns:30px 1fr;align-items:center;gap:8px;min-height:58px;padding:9px;border:1px solid #7aaeba;border-radius:13px;background:#f8fbfa;color:#082b3b;text-align:left;font-size:11px;font-weight:800}
+    .d5-route-list button b{display:grid;place-items:center;width:30px;height:30px;border-radius:50%;background:#ffcc00;color:#082b3b}
+    .d5-route-list button.seen{border-color:#27806a;background:#e1f0e9}
+    .d5-route-list button.seen b{background:#27806a;color:#fff}
+    @media(max-width:390px){.d5-route-list{grid-template-columns:1fr}}
+    .d5-route-map .d5-map{position:absolute;inset:0;width:100%;height:100%;aspect-ratio:auto}
+    .d5-visual-card{margin:1rem 0;padding:12px;background:#fffdf8;border:1px solid #d8d7d0;border-radius:18px}
+    .d5-visual-card h3{margin:.2rem 0 .7rem;font-size:.8rem;letter-spacing:.14em;color:#00659d}
+    .transport-grid{display:grid;grid-template-columns:1fr;gap:8px}
+    .transport-grid div{padding:12px;border-radius:12px;background:#e8f2f4}
+    .transport-grid b,.transport-grid span{display:block}
+    @media(min-width:600px){.transport-grid{grid-template-columns:repeat(3,1fr)}}
+  </style>
+</head>
+<body>
+  <div id="app" class="app">
+    <header id="topbar" class="topbar" hidden>
+      <button id="menu-btn" class="icon-btn" type="button" aria-label="Abrir misiones">☰</button>
+      <div class="where"><small id="day-label">DÍA 05</small><strong id="mission-label">MISIÓN 1 DE 8</strong></div>
+      <button id="fund-btn" class="fund-pill" type="button" aria-label="Ver evidencias recuperadas"><span id="fund-value">0</span><small id="fund-unit">/8 evidencias</small></button>
+    </header>
+    <div id="day-progress" class="day-progress" hidden><span id="day-progress-fill"></span></div>
+    <main id="screen" class="screen" aria-live="polite"></main>
+    <nav id="actions" class="actions" hidden aria-label="Acciones de la pantalla"></nav>
+  </div>
+  <a class="day-switch" href="dia6.html" aria-label="Abrir el Día 06">DÍA 06</a>
+  <dialog id="fund-dialog" class="sheet">
+    <button class="close-sheet" data-close type="button" aria-label="Cerrar">×</button>
+    <p class="kicker">EVIDENCIAS · DÍA 05</p>
+    <h2 id="fund-dialog-title">0 de 8 evidencias recuperadas</h2><div class="meter"><span id="fund-meter"></span></div>
+    <dl class="ledger" id="fund-ledger"></dl>
+    <p class="fine">Cada evidencia conserva una idea útil para leer el siguiente lugar.</p>
+  </dialog>
+  <dialog id="menu-dialog" class="sheet menu-sheet">
+    <button class="close-sheet" data-close type="button" aria-label="Cerrar">×</button>
+    <p class="kicker">DÍA 05</p><h2>Invasión: la fortaleza que esperaba una guerra</h2>
+    <div id="mission-menu" class="mission-menu"></div>
+    <a class="link-btn" href="dia4.html">Volver al Día 04</a>
+    <button id="restart-btn" class="link-btn danger" type="button">Borrar el progreso del Día 05</button>
+  </dialog>
+  <script src="assets/data/nordic-map-data.js"></script>
+  <script src="assets/data/world-map-data.js"></script>
+  <script src="day5-data.js?v=3"></script>
+  <script src="day5-v7-data.js?v=8-04"></script>
+  <script src="app-dia1.js?v=45"></script>
+</body>
+</html>

@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#071824">
+  <meta name="description" content="Código Gripsholm · Día 02 · El barco al que quisieron culpar.">
+  <title>Código Gripsholm · Día 02 · El barco al que quisieron culpar</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="stylesheet" href="styles.css?v=37">
+</head>
+<body>
+  <div id="app" class="app">
+    <header id="topbar" class="topbar" hidden>
+      <button id="menu-btn" class="icon-btn" type="button" aria-label="Abrir misiones">☰</button>
+      <div class="where"><small id="day-label">DÍA 02</small><strong id="mission-label">MISIÓN 1 DE 8</strong></div>
+      <button id="fund-btn" class="fund-pill" type="button" aria-label="Ver evidencias recuperadas"><span id="fund-value">0</span><small id="fund-unit">/8 evidencias</small></button>
+    </header>
+    <div id="day-progress" class="day-progress" hidden><span id="day-progress-fill"></span></div>
+    <main id="screen" class="screen" aria-live="polite"></main>
+    <nav id="actions" class="actions" hidden aria-label="Acciones de la pantalla"></nav>
+  </div>
+
+  <a class="day-switch" href="dia3.html" aria-label="Abrir el Día 03">DÍA 03</a>
+
+  <dialog id="fund-dialog" class="sheet">
+    <button class="close-sheet" data-close type="button" aria-label="Cerrar">×</button>
+    <p class="kicker">EVIDENCIAS · DÍA 02</p>
+    <h2 id="fund-dialog-title">0 evidencias recuperadas</h2>
+    <div class="meter"><span id="fund-meter"></span></div>
+    <dl class="ledger" id="fund-ledger"></dl>
+    <p class="fine">Cada misión deja una evidencia para reconstruir el expediente de Margareta.</p>
+  </dialog>
+
+  <dialog id="menu-dialog" class="sheet menu-sheet">
+    <button class="close-sheet" data-close type="button" aria-label="Cerrar">×</button>
+    <p class="kicker">DÍA 02</p>
+    <h2>El barco al que quisieron culpar</h2>
+    <div id="mission-menu" class="mission-menu"></div>
+    <a class="link-btn" href="dia1.html">Volver al Día 01</a>
+    <button id="restart-btn" class="link-btn danger" type="button">Borrar el progreso del Día 02</button>
+  </dialog>
+
+  <script src="assets/data/nordic-map-data.js"></script>
+  <script src="assets/data/world-map-data.js"></script>
+  <script src="day2-data.js?v=14"></script>
+  <script src="day2-v7-data.js?v=8-06"></script>
+  <script src="app-dia1.js?v=45"></script>
+</body>
+</html>

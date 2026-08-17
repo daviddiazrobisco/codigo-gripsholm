@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Código Gripsholm">
+  <rect width="512" height="512" rx="112" fill="#071824"/>
+  <path d="M76 362c65-25 117-66 159-126 42 60 94 101 159 126" fill="none" stroke="#ffd000" stroke-linecap="round" stroke-width="24"/>
+  <path d="M144 202h224l-112 122z" fill="#e9f3f1" stroke="#ffd000" stroke-linejoin="round" stroke-width="16"/>
+  <circle cx="256" cy="202" r="20" fill="#071824"/>
+  <text x="256" y="434" fill="#ffffff" font-family="Georgia,serif" font-size="48" font-weight="700" text-anchor="middle">GRIPSHOLM</text>
+</svg>

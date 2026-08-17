@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#071824">
+  <meta name="description" content="Código Gripsholm · Día 06 · La puerta occidental.">
+  <title>Código Gripsholm · Día 06</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="stylesheet" href="styles.css?v=40">
+  <style>
+    .d6-route-overview{margin-bottom:12px}.d6-route-overview .geo-map{margin:0}
+    .hero-photo img[src*="geertruyd"]{object-position:center 27%}
+    .screen.dark .story-signal{border-color:#f7c900;background:#102b39;color:#fff}.screen.dark .story-signal b{color:#f7c900}.screen.dark .story-signal span{color:#fff}
+    .d6-route-map{position:relative}.d6-route-map>svg{display:block;width:100%;height:auto}
+    .d6-river{fill:#78bdd4;stroke:#277a96;stroke-width:2}.d6-moat{fill:none;stroke:#3f9ebc;stroke-width:8}.schem-road.minor{stroke-width:2;opacity:.45}
+    .d6-city-labels text{font:800 9px Arial,sans-serif;fill:#092d3e;paint-order:stroke;stroke:#fff;stroke-width:3px}
+    .d6-card{margin:1rem 0}.d6-border-key,.d6-route-legend{display:grid;gap:6px;margin:9px 0}.d6-border-key span,.d6-route-legend span{padding:8px;border-radius:9px;background:#e7eeee;font-size:10px;font-weight:900}
+    .d6-building,.d6-statue,.d6-coat,.d6-fort,.d6-rabbits{display:grid;place-items:center;min-height:220px;padding:18px;border-radius:18px;background:linear-gradient(145deg,#dce9e8,#fffaf0);text-align:center}
+    .d6-building i{width:72%;height:88px;border:7px solid #153849;border-top:0;clip-path:polygon(50% 0,100% 45%,100% 100%,0 100%,0 45%);background:repeating-linear-gradient(90deg,transparent 0 28px,#153849 29px 34px)}
+    .d6-building b,.d6-statue b,.d6-coat strong{margin-top:11px;font:900 18px Georgia,serif}.d6-building span,.d6-building small,.d6-statue em,.d6-statue small{display:block;color:#5a7079}
+    .d6-statue i{position:relative;width:16px;height:116px;border-radius:8px;background:#57686c}.d6-statue i::after{position:absolute;left:8px;top:24px;width:92px;border-top:7px solid #57686c;content:"";transform:rotate(10deg);transform-origin:left}.d6-statue .crown{font-size:34px;color:#c9a500}
+    .d6-coat span{font-size:28px;color:#e2b500}.d6-coat b{font-size:72px;transform:scaleX(-1)}.d6-coat i{font-size:34px}
+    .d6-process{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:8px;padding:18px;border-radius:16px;background:#e7eff0;text-align:center}.d6-process i{font-size:11px}.d6-process span{font-size:12px}.d6-process b{font-size:15px}
+    .d6-council{display:grid;grid-template-columns:repeat(4,1fr);gap:7px}.d6-council span{padding:18px 5px;border-radius:13px;background:#dceceb;text-align:center;font-size:28px}.d6-council b{font-size:9px;text-transform:uppercase}
+    .d6-section{position:relative;height:260px;overflow:hidden;border-radius:18px;background:linear-gradient(#b9dbe8 0 27%,#92806e 28% 57%,#65776e 58%);color:#fff}.d6-section .house{position:absolute;left:80px;top:32px;width:150px;padding:34px 8px 10px;background:#e6dec4;color:#102f3e;text-align:center;clip-path:polygon(50% 0,100% 38%,100% 100%,0 100%,0 38%)}.d6-section .pile{position:absolute;top:105px;width:7px;height:112px;background:#503a2d}.d6-section .p1{left:105px}.d6-section .p2{left:155px}.d6-section .p3{left:205px}.d6-section>b{position:absolute;bottom:38px;left:18px}.d6-section .channel{position:absolute;right:0;top:88px;width:118px;height:78px;padding-top:27px;background:#438eaa;text-align:center;font-size:9px}
+    .d6-photo-card{margin:0;overflow:hidden;border:1px solid #c6d2d3;border-radius:18px;background:#fff}.d6-photo-card img{display:block;width:100%;height:260px;object-fit:cover}.d6-photo-card.coat img{height:280px;padding:20px;object-fit:contain;background:#e7eff0}.d6-photo-card figcaption{padding:12px 15px;color:#324f5b;font-size:13px;line-height:1.45}
+    .d6-building.compact{min-height:130px;margin-top:10px}.d6-building.compact b{font-size:24px}.d6-photo-pair{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}.d6-photo-pair figure{margin:0;overflow:hidden;border-radius:13px;background:#fff}.d6-photo-pair img{display:block;width:100%;height:145px;object-fit:cover}.d6-photo-pair figcaption{padding:8px;font-size:10px;line-height:1.35}
+    .d6-city-pair{display:grid;grid-template-columns:1fr auto 1fr;gap:8px;align-items:stretch;margin-bottom:12px}.d6-city-pair>div{display:grid;gap:4px;padding:13px 8px;border-radius:13px;background:#edf2ec;text-align:center}.d6-city-pair b{font-size:12px}.d6-city-pair strong{font:900 26px Georgia,serif;color:#0877aa}.d6-city-pair span,.d6-city-pair em{font-size:10px;color:#516b74}.d6-city-pair>i{align-self:center;font-size:9px;text-align:center}.d6-northsea{margin-bottom:12px}.d6-coast .schem-country,.d6-europe .schem-country,.d6-world .schem-country{font-size:11px;paint-order:stroke;stroke:#fff;stroke-width:3px}.d6-route{fill:none;stroke:#0877aa;stroke-width:4;stroke-dasharray:8 6}.d6-world .schem-label,.d6-europe .schem-label,.d6-coast .schem-label{font-size:9px}.d6-world .schem-water-label,.d6-europe .schem-water-label{font-size:12px}
+    .d6-house{display:grid;gap:3px}.d6-house span,.d6-house b{padding:20px;border:1px solid #566e73;text-align:center}.d6-house span{background:#b66d48;color:#fff}.d6-house b{background:#d8d1bd}
+    .d6-fort b{font-size:92px;color:#526a6f}.d6-fort span{font-size:22px;font-weight:900}.d6-fort small{color:#63777f}
+    .d6-rabbits b{font-size:68px}.d6-rabbits span{font-size:24px;font-weight:900}.d6-rabbits small{max-width:270px;color:#60747a}
+    .d6-bars{display:grid;gap:11px}.d6-bars div{display:grid;grid-template-columns:94px 1fr 70px;gap:7px;align-items:center;font-size:10px}.d6-bars i{display:block;width:var(--v);min-width:7px;height:16px;border-radius:5px;background:#0877aa}.d6-bars b{text-align:right}
+    .route-line.dashed{stroke-dasharray:3 6;stroke:#b62d3d}.d6-visual .history-timeline{overflow-x:auto}
+    @media(max-width:390px){.d6-council{grid-template-columns:1fr 1fr}.d6-bars div{grid-template-columns:78px 1fr 58px}.d6-statue i::after{width:70px}.d6-photo-card img{height:220px}.d6-city-pair>i{font-size:8px}.d6-city-pair strong{font-size:22px}}
+  </style>
+</head>
+<body>
+  <div id="app" class="app">
+    <header id="topbar" class="topbar" hidden>
+      <button id="menu-btn" class="icon-btn" type="button" aria-label="Abrir misiones">☰</button>
+      <div class="where"><small id="day-label">DÍA 06</small><strong id="mission-label">MISIÓN 1 DE 8</strong></div>
+      <button id="fund-btn" class="fund-pill" type="button" aria-label="Ver evidencias recuperadas"><span id="fund-value">0</span><small id="fund-unit">/8 evidencias</small></button>
+    </header>
+    <div id="day-progress" class="day-progress" hidden><span id="day-progress-fill"></span></div>
+    <main id="screen" class="screen" aria-live="polite"></main>
+    <nav id="actions" class="actions" hidden aria-label="Acciones de la pantalla"></nav>
+  </div>
+  <dialog id="fund-dialog" class="sheet">
+    <button class="close-sheet" data-close type="button" aria-label="Cerrar">×</button>
+    <p class="kicker">EVIDENCIAS · DÍA 06</p>
+    <h2 id="fund-dialog-title">0 de 8 evidencias recuperadas</h2><div class="meter"><span id="fund-meter"></span></div>
+    <dl class="ledger" id="fund-ledger"></dl>
+    <p class="fine">Cada evidencia conserva una idea útil para leer el siguiente lugar.</p>
+  </dialog>
+  <dialog id="menu-dialog" class="sheet menu-sheet">
+    <button class="close-sheet" data-close type="button" aria-label="Cerrar">×</button>
+    <p class="kicker">DÍA 06</p><h2>La ciudad que no debía hundirse</h2>
+    <div id="mission-menu" class="mission-menu"></div>
+    <a class="link-btn" href="dia5.html">Volver al Día 05</a>
+    <button id="restart-btn" class="link-btn danger" type="button">Borrar el progreso del Día 06</button>
+  </dialog>
+  <script src="assets/data/nordic-map-data.js"></script>
+  <script src="assets/data/world-map-data.js"></script>
+  <script src="day6-data.js?v=4"></script>
+  <script src="day6-v7-data.js?v=8-04"></script>
+  <script src="app-dia1.js?v=45"></script>
+</body>
+</html>

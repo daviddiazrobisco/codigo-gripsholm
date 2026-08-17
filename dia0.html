@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#071824">
+  <link rel="apple-touch-icon" href="assets/icons/icon-192.png">
+  <meta name="description" content="Código Gripsholm · Diez días. La Carta del Norte recuperada.">
+  <title>Código Gripsholm</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="stylesheet" href="styles.css?v=33">
+</head>
+<body>
+  <div id="app" class="app">
+    <header id="topbar" class="topbar" hidden>
+      <button id="menu-btn" class="icon-btn" type="button" aria-label="Abrir misiones">☰</button>
+      <div class="where"><small id="day-label">DÍA 00</small><strong id="mission-label">MISIÓN 1 DE 8</strong></div>
+      <button id="fund-btn" class="fund-pill" type="button" aria-label="Ver evidencias recuperadas"><span id="fund-value">0/5</span><small id="fund-unit">evidencias</small></button>
+    </header>
+    <div id="day-progress" class="day-progress" hidden><span id="day-progress-fill"></span></div>
+    <nav id="journey-tabs" class="journey-tabs" aria-label="Días del viaje" hidden>
+      <a class="active" href="dia0.html" aria-current="page">D0</a>
+      <a href="dia1.html">D1</a><a href="dia2.html">D2</a><a href="dia3.html">D3</a><a href="dia4.html">D4</a><a href="dia5.html">D5</a><a href="dia6.html">D6</a>
+        <a href="dia7.html">D7</a><a href="dia8.html">D8</a><a href="dia9.html">D9</a><a href="dia10.html">D10</a>
+    </nav>
+    <main id="screen" class="screen" aria-live="polite"></main>
+    <nav id="actions" class="actions" hidden aria-label="Acciones de la pantalla"></nav>
+  </div>
+
+  <a class="day-switch" href="dia1.html" aria-label="Abrir el Día 01">DÍA 01</a>
+
+  <dialog id="fund-dialog" class="sheet">
+    <button class="close-sheet" data-close type="button" aria-label="Cerrar">×</button>
+    <p class="kicker">EVIDENCIAS DE LA CARTA</p>
+    <h2 id="fund-dialog-title">0 de 5 recuperadas</h2>
+    <div class="meter"><span id="fund-meter"></span></div>
+    <dl class="ledger" id="fund-ledger"></dl>
+    <p class="fine">Cada misión devuelve una relación a la Carta: lugar, frontera, agua, cultura o conversación.</p>
+  </dialog>
+
+  <dialog id="menu-dialog" class="sheet menu-sheet">
+    <button class="close-sheet" data-close type="button" aria-label="Cerrar">×</button>
+    <p class="kicker">DÍA 00</p>
+    <h2>La ruta borrada</h2>
+    <div id="mission-menu" class="mission-menu"></div>
+    <button id="restart-btn" class="link-btn danger" type="button">Borrar el progreso y empezar de nuevo</button>
+  </dialog>
+
+  <script src="assets/data/nordic-map-data.js"></script>
+  <script src="day0-v7-data.js?v=8-05"></script>
+  <script src="app.js?v=8-05"></script>
+</body>
+</html>
