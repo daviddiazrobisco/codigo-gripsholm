@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 620" role="img" aria-labelledby="title desc">
+  <title id="title">Estocolmo, puerto y salida hacia el Báltico</title>
+  <desc id="desc">Mapa esquemático del centro de Estocolmo, Djurgården, Beckholmen, Vaxholm y la salida hacia el Báltico.</desc>
+  <rect width="900" height="620" fill="#b9dce6"/>
+  <path d="M0 0H410L448 75 422 136 475 205 424 270 353 254 273 314 157 286 0 343Z" fill="#ece5d1" stroke="#527985" stroke-width="4"/>
+  <path d="M0 447 158 356 293 376 404 473 377 620H0Z" fill="#ece5d1" stroke="#527985" stroke-width="4"/>
+  <path d="M494 205Q695 120 900 250V468Q719 514 544 419Q461 353 494 205Z" fill="#e8e1ca" stroke="#527985" stroke-width="4"/>
+  <path d="M397 266q42-33 70 14t-25 77q-57-10-45-91Z" fill="#e8e1ca" stroke="#527985" stroke-width="4"/>
+  <path d="M553 220q39-22 63 16t-18 52q-49 9-45-68Z" fill="#e8e1ca" stroke="#527985" stroke-width="4"/>
+  <path d="M315 315 C390 291 461 277 552 250 S721 194 785 99" fill="none" stroke="#0879a6" stroke-width="8" stroke-linecap="round" stroke-dasharray="18 13"/>
+  <circle cx="315" cy="315" r="12" fill="#f7c900" stroke="#0b3243" stroke-width="6"/>
+  <circle cx="398" cy="344" r="14" fill="#b83348" stroke="#0b3243" stroke-width="6"/>
+  <circle cx="552" cy="250" r="12" fill="#f7c900" stroke="#0b3243" stroke-width="6"/>
+  <circle cx="785" cy="99" r="12" fill="#f7c900" stroke="#0b3243" stroke-width="6"/>
+  <g font-family="Arial, sans-serif" fill="#082b3b">
+    <text x="44" y="59" font-size="19" font-weight="700" letter-spacing="3">ESTOCOLMO · PUERTO Y SALIDA</text>
+    <rect x="58" y="240" width="228" height="45" rx="10" fill="#fffdf7"/><text x="76" y="270" font-size="24" font-weight="700">Gamla Stan · Tre Kronor</text>
+    <rect x="309" y="372" width="176" height="44" rx="10" fill="#fffdf7"/><text x="327" y="401" font-size="24" font-weight="700">Beckholmen</text>
+    <rect x="521" y="171" width="143" height="44" rx="10" fill="#fffdf7"/><text x="539" y="200" font-size="24" font-weight="700">Djurgården</text>
+    <rect x="707" y="42" width="118" height="44" rx="10" fill="#fffdf7"/><text x="726" y="71" font-size="24" font-weight="700">Vaxholm</text>
+    <text x="510" y="543" font-size="25" letter-spacing="2" fill="#166b88">HACIA EL BÁLTICO</text>
+  </g>
+  <path d="M842 548V497m0 0-11 18m11-18 11 18" fill="none" stroke="#082b3b" stroke-width="5"/><text x="832" y="585" font-family="Arial, sans-serif" font-size="22" font-weight="700" fill="#082b3b">N</text>
+</svg>

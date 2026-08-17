@@ -98,7 +98,7 @@
     const x=DATA.prologue[state.intro]; setChrome({show:false,dark:true}); screen.className="screen dark";
     const image=x.characterImage||(/MARGARETA/.test(x.k||"")?"margareta-nilsdotter-reconstruccion-v1.png":x.image);
     const introHtml=(x.html||"").replace(/Saga añade:\s*/gi,"");
-    screen.innerHTML=`${image?`<figure class="hero-photo"><img src="${imgBase+image}" alt="${esc(x.alt||"")}"></figure>`:""}<p class="kicker">${x.k}</p><h2>${x.title}</h2>${x.routeMap?routeMapMarkup():""}${introHtml}`;
+    screen.innerHTML=`${image?`<figure class="hero-photo ${x.portraitFocus?"portrait-focus":""}"><img src="${imgBase+image}" alt="${esc(x.alt||"")}"></figure>`:""}<p class="kicker">${x.k}</p><h2>${x.title}</h2>${x.routeMap?routeMapMarkup():""}${introHtml}`;
     if(x.routeMap) bindRouteMap();
     setActions([{label:x.action||"Continuar",run:()=>{if(state.intro<DATA.prologue.length-1)state.intro++;else state.stage="activation";save();render()}}],true);
   }
@@ -349,6 +349,7 @@
   function solutionExtra(q,scope){
     let h="";
     if(q.type==="match")h+=`<div class="puzzle-card"><p class="kicker">REGISTRO COMPLETO</p>${q.pairs.map(x=>`<p><strong>${esc(x[0])}</strong><br>${esc(x[1])}</p>`).join("")}</div>`;
+    if(q.solutionNote)h+=`<div class="puzzle-card"><p class="kicker">LEER LA PRUEBA</p>${q.solutionNote}</div>`;
     if(q.type==="order")h+=`<div class="puzzle-card"><p class="kicker">SECUENCIA RECUPERADA</p>${orderMarkup(q,scope,true)}</div>`;
     if(q.solutionVisual)h+=`<div class="puzzle-card solution-visual"><p class="kicker">PISTAS VISUALES</p>${visual(q.solutionVisual,q,scope,true)}</div>`;
     if(q.visual&&!missions[state.mission].contexts?.length)h+=`<div class="puzzle-card solution-visual"><p class="kicker">PRUEBA COMPLETA</p>${visual(q.visual,q,scope,true)}</div>`;
@@ -462,7 +463,7 @@
       djurgarden:`<div class="history-timeline"><div><strong>1452</strong><span>propiedad real</span></div><div><strong>1579</strong><span>recinto de animales</span></div><div><strong>1680s</strong><span>parque de caza</span></div><div><strong>1733</strong><span>32 locales con licencia</span></div></div>`,
       skansen:`<div class="evidence-grid three"><div><b>GRANJA</b><span>región y época</span></div><div><b>TALLER</b><span>oficio y herramienta</span></div><div><b>FAUNA</b><span>animales nórdicos</span></div></div>`,
       rosendal:`<div class="garden-diagram"><span>INVERNADERO</span><span>HUERTO</span><span>PANADERÍA</span><span>CAFÉ</span></div>`,
-      abba:`<figure class="vasa-photo"><img src="${imgBase}abba-1974-top-pop.png" alt="ABBA en 1974"><figcaption>Agnetha · Björn · Benny · Anni-Frid · TopPop 1974</figcaption></figure><div class="abba-letters"><b>A</b><b>B</b><b>B</b><b>A</b></div>`,
+      abba:`<figure class="vasa-photo"><img src="${imgBase}abba-1974-top-pop.png" alt="ABBA en 1974"><figcaption>ABBA en 1974 · Agnetha, Björn, Benny y Anni-Frid</figcaption></figure><div class="evidence-grid two"><div><b>A · AGNETHA</b><span>Fältskog</span></div><div><b>B · BJÖRN</b><span>Ulvaeus</span></div><div><b>B · BENNY</b><span>Andersson</span></div><div><b>A · ANNI-FRID</b><span>Lyngstad</span></div></div><p class="fine">Las iniciales de sus cuatro nombres formaron ABBA.</p>`,
       d2Aland:`<div class="evidence-grid two"><div><b>ARCHIPIÉLAGO</b><span>islas y aguas entre ellas</span></div><div><b>ÅLAND</b><span>entre Suecia y Finlandia</span></div><div><b>IDIOMA</b><span>mayoritariamente sueco</span></div><div><b>SOBERANÍA</b><span>autonomía de Finlandia · desmilitarizada</span></div></div>`
     };
     if(kind==="sveargotar")return mapSvearGotar(solution);

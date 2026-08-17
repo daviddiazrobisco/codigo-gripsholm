@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 620" role="img" aria-labelledby="title desc">
+  <title id="title">Ruta real y ruta prevista del Vasa</title>
+  <desc id="desc">Mapa esquemático de la corta salida real del Vasa hasta Beckholmen y de su ruta prevista hacia Vaxholm y Älvsnabben.</desc>
+  <rect width="900" height="620" fill="#b9dce6"/>
+  <path d="M0 0H236L208 113 244 208 194 322 151 452 175 620H0Z" fill="#ece5d1" stroke="#527985" stroke-width="4"/>
+  <g fill="#ece5d1" stroke="#527985" stroke-width="4"><ellipse cx="278" cy="275" rx="16" ry="25"/><ellipse cx="321" cy="214" rx="24" ry="13"/><ellipse cx="364" cy="175" rx="15" ry="24"/><ellipse cx="409" cy="244" rx="26" ry="14"/><ellipse cx="468" cy="294" rx="15" ry="25"/><ellipse cx="524" cy="354" rx="29" ry="15"/><ellipse cx="579" cy="425" rx="16" ry="27"/><ellipse cx="642" cy="492" rx="26" ry="14"/><ellipse cx="713" cy="534" rx="18" ry="29"/></g>
+  <path d="M155 334Q276 244 382 164Q523 250 695 532" fill="none" stroke="#0879a6" stroke-width="8" stroke-linecap="round" stroke-dasharray="18 13"/>
+  <path d="M155 334L193 350" fill="none" stroke="#b83348" stroke-width="10" stroke-linecap="round"/>
+  <circle cx="155" cy="334" r="12" fill="#f7c900" stroke="#0b3243" stroke-width="6"/>
+  <circle cx="193" cy="350" r="14" fill="#b83348" stroke="#0b3243" stroke-width="6"/>
+  <circle cx="382" cy="164" r="12" fill="#f7c900" stroke="#0b3243" stroke-width="6"/>
+  <circle cx="695" cy="532" r="12" fill="#f7c900" stroke="#0b3243" stroke-width="6"/>
+  <g font-family="Arial, sans-serif" fill="#082b3b">
+    <text x="42" y="58" font-size="19" font-weight="700" letter-spacing="3">VASA · RUTA REAL Y RUTA PREVISTA</text>
+    <rect x="46" y="274" width="208" height="45" rx="10" fill="#fffdf7"/><text x="63" y="304" font-size="24" font-weight="700">Tre Kronor · salida</text>
+    <rect x="45" y="375" width="226" height="45" rx="10" fill="#fffdf7"/><text x="63" y="405" font-size="24" font-weight="700">Beckholmen · 1.300 m</text>
+    <rect x="317" y="91" width="184" height="45" rx="10" fill="#fffdf7"/><text x="335" y="121" font-size="24" font-weight="700">Vaxholm · escala prevista</text>
+    <rect x="635" y="558" width="177" height="45" rx="10" fill="#fffdf7"/><text x="653" y="588" font-size="24" font-weight="700">Älvsnabben · flota</text>
+    <text x="42" y="124" font-size="25" letter-spacing="3" fill="#166b88">ESTOCOLMO</text>
+    <text x="555" y="253" font-size="25" letter-spacing="3" fill="#166b88">ARCHIPIÉLAGO</text>
+  </g>
+  <g font-family="Arial, sans-serif" font-size="18" fill="#082b3b"><line x1="42" y1="468" x2="88" y2="468" stroke="#b83348" stroke-width="8" stroke-linecap="round"/><text x="102" y="475">ruta real · naufragio</text><line x1="42" y1="505" x2="88" y2="505" stroke="#0879a6" stroke-width="7" stroke-dasharray="14 10"/><text x="102" y="512">ruta prevista · no completada</text></g>
+</svg>
