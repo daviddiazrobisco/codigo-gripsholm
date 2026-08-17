@@ -221,6 +221,12 @@
   renderMissionEnd=()=>{const m=missions[state.mission];if(!state.completedMissions.includes(state.mission))state.completedMissions.push(state.mission);save();setChrome({mission:state.mission,progress:(state.completedMissions.length/missionTotal())*100});screen.className="screen dark mission-scene-screen";screen.innerHTML=`${sagaImage("Saga cierra la misión ${state.mission+1}: ${m.title}")}<p class="kicker">SAGA · EVIDENCIA RECUPERADA</p><h2>${m.title}</h2><p class="scene-dialogue">${missionCloseCopy[m.title]||m.done}</p><section class="mission-brief"><p class="kicker">LO QUE HEMOS CONSEGUIDO</p><p>${m.done}</p><p><strong>La siguiente misión parte de esta evidencia.</strong></p></section>${progressBlock(state.completedMissions.length,missionTotal(),"Evidencias de la Carta")}`;const last=state.mission===missionTotal()-1;setActions([{label:"Salir por ahora",kind:"secondary",run:()=>{if(!last){state.mission++;state.key=0;state.stage="landing"}else state.stage="ending";save();render()}},{label:last?"Revelar la coordenada":`Ir a la misión ${state.mission+2}`,run:()=>{if(last)state.stage="ending";else{state.mission++;state.key=0;state.stage="missionCover"}save();render()}}],true)};
   const baseSolutionExtra=solutionExtra;
   solutionExtra=q=>{
+    if(q.type==="trueFalse"){
+      const p=getProg(keyScope(q)), results=p.booleanResults||[];
+      const correct=results.filter(item=>item.answer===item.solution).length;
+      const errors=results.length-correct;
+      return `<section class="puzzle-card"><p class="kicker">RESUMEN DE SEÑALES SUECAS</p><p><strong>${correct} aciertos · ${errors} errores</strong></p>${results.map(item=>`<p><strong>Pregunta:</strong> ${item.question}<br><strong>Tu respuesta:</strong> ${item.answer?"Verdadero":"Falso"}<br><strong>Solución:</strong> ${item.solution?"Verdadero":"Falso"} · ${item.answer===item.solution?"acierto":"error"}</p>`).join("")}</section>`;
+    }
     if(q.type==="timer"){
       const p=getProg(keyScope(q)), results=p.timerResults||[];
       const correct=results.filter(item=>item.answer===item.country).length;
@@ -238,6 +244,18 @@
     screen.querySelectorAll("[data-flag-target]").forEach(b=>b.onclick=()=>{if(!p.selectedFlag||p.fixed[b.dataset.flagTarget])return;Object.keys(p.pending).forEach(k=>{if(p.pending[k]===p.selectedFlag)delete p.pending[k]});p.pending[b.dataset.flagTarget]=p.selectedFlag;p.selectedFlag=null;save();renderCurrent(q,scope,correction)});
     const ready=Object.keys(p.fixed).length+Object.keys(p.pending).length===q.pairs.length;
     setActions([{label:"Comprobar las banderas",disabled:!ready,run:()=>{q.pairs.forEach(([flag,country])=>{if(p.pending[country]===flag){p.fixed[country]=flag;delete p.pending[country]}else if(p.pending[country]){p.mistakes.push(country);delete p.pending[country]}});if(Object.keys(p.fixed).length===q.pairs.length){markCheck(scope);completeKey(q,scope,correction)}else{markFailure(q,scope,correction);save();renderCurrent(q,scope,correction,`Has recuperado ${Object.keys(p.fixed).length} de ${q.pairs.length}. ${q.hint}`)}}}]);
+  };
+  bindTrueFalse=(q,scope,correction)=>{
+    const p=getProg(scope), i=p.index||0, item=q.items[i];
+    p.booleanResults||=[];
+    if(p.answer==null){
+      screen.querySelectorAll("[data-boolean]").forEach(button=>button.onclick=()=>{p.answer=button.dataset.boolean==="true";save();renderCurrent(q,scope,correction)});
+      setActions([{label:"Elige una opción",disabled:true,run:()=>{}}]);
+      return;
+    }
+    const saveAnswer=()=>{if(!p.booleanResults.some(result=>result.index===i))p.booleanResults.push({index:i,question:item.label,answer:p.answer,solution:item.answer});};
+    const last=i===q.items.length-1;
+    setActions([{label:last?"Guardar el reto opcional":"Siguiente señal",run:()=>{saveAnswer();if(last){save();completeKey(q,scope,correction)}else{p.index=i+1;delete p.answer;save();renderCurrent(q,scope,correction)}}}]);
   };
   startTimer=(q,scope,correction)=>{
     const rounds=[["se","Suecia",["Suecia","Finlandia","Islandia"]],["dk","Dinamarca",["Noruega","Dinamarca","Feroe"]],["fi","Finlandia",["Finlandia","Suecia","Åland"]],["no","Noruega",["Islandia","Noruega","Dinamarca"]],["is","Islandia",["Feroe","Finlandia","Islandia"]]];
