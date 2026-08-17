@@ -1,4 +1,4 @@
-const CACHE="gripsholm-v8-days00-10-v54";
+const CACHE="gripsholm-v8-days00-10-v55";
 const FILES=[
   "./","./index.html","./dia0.html","./dia1.html","./dia2.html","./dia3.html","./dia4.html","./dia5.html","./dia6.html","./dia7.html","./dia8.html","./dia9.html","./dia10.html","./styles.css","./connection-status.js","./app.js","./app-dia1.js","./app-dia2.js","./app-dia5.js","./app-dia6.js","./day0-v7-data.js","./day1-v7-data.js","./day2-v7-data.js","./day3-v7-data.js","./day4-v7-data.js","./day5-v7-data.js","./day6-v7-data.js","./day7-v7-data.js","./day8-v7-data.js","./day9-v7-data.js","./day10-v7-data.js","./manifest.webmanifest","./assets/icons/icon-192.png","./assets/icons/icon-512.png","./assets/icons/icon.svg",
   "./assets/data/nordic-map-data.js","./assets/data/world-map-data.js",
@@ -56,6 +56,7 @@ const FILES=[
   ,"./assets/images/gotemburgo_1644.jpg"
   ,"./assets/images/faktablad-stenkallerundan-eng.pdf"
   ,"./assets/images/Estrid-Erikson.jpg"
+  ,"./assets/images/Skottek.jpg"
 ];
 const OFFLINE_MEDIA=[
   "./assets/data/ne_10m_admin_0_countries.geojson","./assets/data/ne_10m_lakes.geojson","./assets/data/ne_110m_admin_0_countries.geojson",
