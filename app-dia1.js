@@ -229,6 +229,7 @@
   function questionMarkup(q,scope){
     if(q.type==="single"||q.type==="multi")return optionMarkup(q,scope);
     if(q.type==="match")return matchMarkup(q,scope);
+    if(q.type==="lakePlacement")return lakePlacementMarkup(q,scope);
     if(q.type==="order")return orderMarkup(q,scope);
     if(q.type==="explore")return exploreMarkup(q,scope);
     if(q.type==="speech")return speechQuestionMarkup(q,scope);
@@ -264,6 +265,19 @@
     const used=[...Object.values(p.fixed),...Object.values(p.pending)];
     return `<div class="match-columns"><div>${left.filter(x=>solution||!used.includes(x[0])).map(x=>`<button class="option ${p.source===x[0]?"selected":""}" data-source="${esc(x[0])}" ${solution?"disabled":""}>${esc(x[0])}</button>`).join("")}</div><div>${right.map(x=>`<button class="option ${solution||p.fixed[x[1]]?"locked":p.pending[x[1]]?"selected":""}" data-target="${esc(x[1])}" ${solution||p.fixed[x[1]]?"disabled":""}>${esc(x[1])}${solution||p.fixed[x[1]]?" · ✓":""}</button>`).join("")}</div></div>${solution?"":`<p class="placement-progress">Relaciones fijadas: ${Object.keys(p.fixed).length} de ${q.pairs.length}</p>${q.dossier?`<details class="dossier"><summary>ABRIR EL EXPEDIENTE</summary><p>${q.dossier}</p></details>`:""}`}`;
   }
+  function lakePlacementMarkup(q,scope){
+    const p=prog(scope);p.fixed||={};p.pending||={};
+    const used=[...Object.values(p.fixed),...Object.values(p.pending)];
+    const b=[12.2,19,57.85,60.05],m=baseMap(b,"Mapa de Vänern, Vättern, Mälaren y Hjälmaren"),selected=p.selectedLabel;
+    let s=m.svg;
+    q.items.forEach((item,i)=>{
+      const [id,label,,lon,lat,dx,dy]=item,point=project(lon,lat,b,m.W,m.H),x=point[0]+dx,y=point[1]+dy,fixed=p.fixed[id],pending=p.pending[id];
+      if(dx||dy)s+=`<line class="lake-placement-line" x1="${point[0]}" y1="${point[1]}" x2="${x}" y2="${y}"/>`;
+      s+=`<g class="lake-placement-pin ${fixed?"fixed":pending?"pending":""}" data-lake-target="${id}" role="button" tabindex="0" aria-label="Posición ${i+1}"><circle cx="${x}" cy="${y}" r="12"/><text x="${x}" y="${y+4}" text-anchor="middle">${fixed?"✓":i+1}</text>${fixed?`<text class="lake-placement-name" x="${x+(dx<0?-8:8)}" y="${y-16}" text-anchor="${dx<0?"end":"start"}">${esc(fixed)}</text>`:""}</g>`;
+    });
+    const notes=q.items.filter(x=>p.fixed[x[0]]).map(x=>`<div><b>✓ ${esc(x[1])}</b><span>${esc(x[2])}</span></div>`).join("");
+    return `<section class="lake-placement"><div class="geo-map lake-placement-map">${s}</svg></div><p class="placement-progress">Has situado <strong>${Object.keys(p.fixed).length} de ${q.items.length}</strong> lagos.</p><div class="label-bank lake-label-bank">${q.items.filter(x=>!used.includes(x[1])).map(x=>`<button type="button" class="map-label-chip ${selected===x[1]?"selected":""}" data-lake-label="${esc(x[1])}">${esc(x[1])}</button>`).join("")}</div><p class="map-caption">Elige un lago y toca el punto que corresponde a su forma real en el mapa.</p>${notes?`<div class="lake-fixed-notes">${notes}</div>`:""}</section>`;
+  }
   function orderMarkup(q,scope,solution=false){
     const p=prog(scope); if(!p.order)p.order=shuffleFor(q.items,scope,"order",x=>x[0]).map(x=>x[0]);
     const order=solution?q.answer:p.order;
@@ -280,6 +294,7 @@
     if(q.type==="single")return bindSingle(q,scope,correction);
     if(q.type==="multi")return bindMulti(q,scope,correction);
     if(q.type==="match")return bindMatch(q,scope,correction);
+    if(q.type==="lakePlacement")return bindLakePlacement(q,scope,correction);
     if(q.type==="order")return bindOrder(q,scope,correction);
     if(q.type==="explore")return bindExplore(q,scope,correction);
     if(q.type==="speech")return bindSpeechQuestion(q,scope,correction);
@@ -329,6 +344,21 @@
       q.pairs.forEach(x=>{if(p.pending[x[1]]===x[0]){p.fixed[x[1]]=x[0];delete p.pending[x[1]]}else delete p.pending[x[1]]});
       const ok=Object.keys(p.fixed).length===q.pairs.length;markAttempt(q,scope,ok,correction);
       if(ok)complete(q,scope,correction);else{save();renderCurrent(q,correction,`Has fijado ${Object.keys(p.fixed).length} de ${q.pairs.length}. ${q.hint}`)}
+    }}]);
+  }
+  function bindLakePlacement(q,scope,correction){
+    const p=prog(scope);p.fixed||={};p.pending||={};
+    screen.querySelectorAll("[data-lake-label]").forEach(b=>b.onclick=()=>{p.selectedLabel=b.dataset.lakeLabel;save();renderCurrent(q,correction)});
+    screen.querySelectorAll("[data-lake-target]").forEach(b=>b.onclick=()=>{
+      const id=b.dataset.lakeTarget;if(!p.selectedLabel||p.fixed[id])return;
+      Object.keys(p.pending).forEach(k=>{if(p.pending[k]===p.selectedLabel)delete p.pending[k]});
+      p.pending[id]=p.selectedLabel;p.selectedLabel=null;save();renderCurrent(q,correction);
+    });
+    const ready=Object.keys(p.fixed).length+Object.keys(p.pending).length===q.items.length;
+    setActions([{label:"Comprobar el mapa",disabled:!ready,run:()=>{
+      let wrong=0;q.items.forEach(([id,label])=>{if(p.pending[id]===label){p.fixed[id]=label;delete p.pending[id]}else if(p.pending[id]){delete p.pending[id];wrong++}});
+      const ok=Object.keys(p.fixed).length===q.items.length;markAttempt(q,scope,ok,correction);
+      if(ok)complete(q,scope,correction);else{save();renderCurrent(q,correction,`Has situado ${Object.keys(p.fixed).length} de ${q.items.length} lagos. ${wrong?"Revisa las posiciones que han vuelto a quedar libres. ":""}${q.hint}`)}
     }}]);
   }
   function bindOrder(q,scope,correction){
