@@ -1,5 +1,11 @@
 # Atribuciones de imágenes
 
+## Cómic: Guerra de Finlandia
+
+- Archivos locales: `comic-finlandia-01-tilsit.jpg` a `comic-finlandia-06-tratado.jpg`.
+- Seis ilustraciones generadas expresamente para Código Gripsholm como recreación didáctica.
+- Uso en la app: los bocadillos no son citas históricas literales; resumen decisiones y hechos documentados de 1807–1809.
+
 ## Salón Azul del Ayuntamiento de Estocolmo
 
 - Archivo local: `blue-hall-stockholm-oyvind-holmstad.jpg`.
