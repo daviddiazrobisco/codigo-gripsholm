@@ -77,7 +77,10 @@ window.DAY1_DATA={
 
 (()=>{const m=window.DAY1_DATA.missions;
   m[1].questions[0].media={file:"Vitsand.jpg",alt:"Playa de Vitsand",caption:"Vitsand · arena clara junto al agua oscura del bosque."};
-  m[1].contexts.push({character:true,k:"MAPA OPCIONAL · SI VAS AL PARQUE",title:"Elige tu día en Tiveden",visual:"d4TrailPlanner",html:'<p>Este mapa no propone una única excursión. Sitúa las rutas oficiales y los lugares que ya conocemos para que puedas elegir según tiempo y ganas.</p><p><strong>Vitsand y Junker Jägares sten están cerca:</strong> desde la entrada de Vitsand se llega al bloque por el sendero blanco. También puedes visitar ambos lugares y desplazarte en coche hacia otra entrada del parque.</p><p>La vuelta completa al lago, <strong>Trehörningsrundan</strong>, mide 9,5 km y pasa por todas las entradas. En Tiveden hay más de 34 km de senderos señalizados; muchas zonas tienen roca, raíces, humedad y desnivel.</p>'});
+  m[0].contexts.push({character:true,k:"MAPA OPCIONAL · SI VAS AL PARQUE",title:"Elige tu día en Tiveden",visual:"d4TrailPlanner",html:'<p>Este mapa no propone una única excursión. Sitúa las rutas oficiales y los lugares que ya conocemos para que puedas elegir según tiempo y ganas.</p><p><strong>Vitsand y Junker Jägares sten están cerca:</strong> desde la entrada de Vitsand se llega al bloque por el sendero blanco. También puedes visitar ambos lugares y desplazarte en coche hacia otra entrada del parque.</p><p>La vuelta completa al lago, <strong>Trehörningsrundan</strong>, mide 9,5 km y pasa por todas las entradas. En Tiveden hay más de 34 km de senderos señalizados; muchas zonas tienen roca, raíces, humedad y desnivel.</p>'});
+  m[1].contexts[0].mapImage="vitsand-playa-2026.jpg";
+  m[1].contexts[0].mapAlt="Playa de arena de Vitsand junto al lago y el bosque";
+  m[1].contexts[0].mapCaption="Vitsand · arena clara, agua y bosque · foto del autor del viaje, 2026";
   m[4].contexts[0].mediaGallery=null;
   m[4].contexts[1].mediaGallery=null;
 })();
