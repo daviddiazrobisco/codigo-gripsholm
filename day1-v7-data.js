@@ -3,7 +3,7 @@
 (() => {
   const v4 = window.DAY1_DATA || {};
   window.DAY1_DATA = {
-    meta:{day:"01",store:"codigo-gripsholm-v8-day01",contentVersion:"v8-day01-final",place:"ESTOCOLMO · GAMLA STAN",title:"La plaza cerrada",landing:"Una fecha, una plaza y una voz que no debemos inventar.",badge:"cuaderno de Karin",objective:"PROTEGER UN TESTIMONIO SIN INVENTARLO",objectiveCopy:"Leeremos Estocolmo, la Unión de Kalmar y la promesa rota antes de decidir qué puede afirmar Karin.",evidenceCopy:"Cada misión conserva una prueba y una pregunta honesta.",fine:"Karin es un personaje ficticio; el contexto histórico y los lugares son reales.",verifiedTitle:"El testimonio queda protegido.",verifiedAction:"Abrir el cierre de Saga",result:{title:"La plaza cerrada",evidence:"Cuaderno de Karin protegido",openQuestion:"¿Por qué La Sombra necesita borrar el nombre Vasa?",next:{href:"dia2.html",label:"Abrir el Día 02"}}},
+    meta:{day:"01",store:"codigo-gripsholm-v8-day01",contentVersion:"v8-day01-cityhall",place:"ESTOCOLMO · GAMLA STAN",title:"La plaza cerrada",landing:"Una fecha, una plaza y una voz que no debemos inventar.",badge:"cuaderno de Karin",objective:"PROTEGER UN TESTIMONIO SIN INVENTARLO",objectiveCopy:"Leeremos Estocolmo, la Unión de Kalmar y la promesa rota antes de decidir qué puede afirmar Karin.",evidenceCopy:"Cada misión conserva una prueba y una pregunta honesta.",fine:"Karin es un personaje ficticio; el contexto histórico y los lugares son reales.",verifiedTitle:"El testimonio queda protegido.",verifiedAction:"Abrir el cierre de Saga",result:{title:"La plaza cerrada",evidence:"Cuaderno de Karin protegido",openQuestion:"¿Por qué La Sombra necesita borrar el nombre Vasa?",next:{href:"dia2.html",label:"Abrir el Día 02"}}},
     prologue: [
       { k:"SAGA · COORDENADA ABIERTA", title:"Una voz en la plaza.", image:"saga-transmision-inicial.png", alt:"Saga abre la coordenada de Estocolmo", html:`<p>La coordenada nos ha traído a una plaza, una fecha y un nombre: <strong>Estocolmo · noviembre de 1520 · Karin</strong>.</p><p>Mis padres construyeron una testigo ficticia para proteger nombres y hechos reales. Así no inventamos la voz de una víctima concreta.</p><p>La Sombra ha intentado borrar la relación entre Cristián II, esta plaza y Gustav Eriksson.</p><p class="lead">Si ayudamos a Karin a conservar lo que realmente sabe, protegeremos la historia.</p>`, action:"Escuchar a Karin" },
       { k:"KARIN · RECONSTRUCCIÓN NARRATIVA", title:"Me llamo Karin.", image:"karin-testimonio-1520-v1.png", alt:"Reconstrucción narrativa de Karin en Estocolmo en 1520", html:`<p><strong>Persona ficticia; contexto histórico real.</strong></p><p>No puedo seguir dándoos pistas hasta saber de dónde venís. La Sombra ha querido borrar nuestro pasado.</p><p>Mi padre salió esta mañana y aún no ha vuelto. Si sabéis leer quiénes fuimos, quizá pueda confiar en vosotras.</p><p class="lead">Entonces os contaré lo que está pasando en la ciudad.</p>`, action:"Abrir la primera página" },
@@ -158,6 +158,41 @@
   m[7].contexts[3].mapCaption="Prästgatan · las runas son una forma de escritura; el texto está en nórdico antiguo.";
 })();
 
+// Ayuntamiento de Estocolmo · ampliación aprobada para la última parada del Día 01.
+(()=>{const mission=window.DAY1_DATA.missions[7];
+  const cityHall={
+    k:"PARADA 5 · AYUNTAMIENTO DE ESTOCOLMO",
+    title:"El Ayuntamiento junto al agua",
+    mapImage:"blue-hall-stockholm-oyvind-holmstad.jpg",
+    mapAlt:"Interior del Salón Azul del Ayuntamiento de Estocolmo, con ladrillo rojo visto y escalera monumental",
+    mapCaption:"Salón Azul · foto de Øyvind Holmstad · CC BY-SA 4.0 · Wikimedia Commons.",
+    html:`<p>El Ayuntamiento de Estocolmo se inauguró en 1923. Su torre de ladrillo, de 106 metros y coronada por las Tres Coronas, mira hacia Gamla Stan.</p><p>En su interior está el <strong>Salón Azul</strong>. Su nombre engaña: nunca llegó a pintarse de azul. El arquitecto Ragnar Östberg había previsto cubrir las paredes y pintarlas de ese color, <strong>para que el interior recordara al agua de la bahía</strong>. Durante la construcción decidió conservar el ladrillo rojo visto.</p>`
+  };
+  const cityHallMoments={
+    k:"AYUNTAMIENTO · GRANDES MOMENTOS",
+    title:"Nobel, oro y bodas de cinco minutos",
+    html:`<p>Cada 10 de diciembre, el Salón Azul acoge el banquete Nobel, después de la ceremonia de entrega de los premios.</p><p>Después de la cena, los invitados suben al <strong>Salón Dorado</strong>, cuyas paredes están cubiertas por mosaicos dorados.</p><p>El Ayuntamiento también celebra bodas civiles en el Salón Oval. La ceremonia dura unos cinco minutos, pero hay que reservarla y presentar la documentación necesaria.</p>`
+  };
+  mission.contexts[4]=cityHall;
+  mission.contexts.splice(5,0,cityHallMoments);
+  mission.questions=[{
+    id:"d1v7m8-cityhall",
+    type:"trueFalse",
+    title:"El Ayuntamiento no es solo una torre",
+    prompt:"Decide qué es verdadero y qué es falso. Cada respuesta abre la explicación antes de continuar.",
+    explanation:"Has distinguido el edificio, el Salón Azul y los grandes momentos que conserva.",
+    success:"AYUNTAMIENTO LEÍDO CON PRECISIÓN.",
+    items:[
+      {label:"El Salón Azul fue pintado de azul y después recuperó el ladrillo.",answer:false,explanation:"Falso. El proyecto inicial era azul, pero Ragnar Östberg cambió de idea durante la construcción y dejó el ladrillo rojo visto."},
+      {label:"El banquete Nobel se celebra en el Salón Azul.",answer:true,explanation:"Verdadero. Después de la ceremonia de entrega, alrededor de 1.300 invitados cenan en el Salón Azul."},
+      {label:"Los ganadores reciben los Premios Nobel en el Salón Azul.",answer:false,explanation:"Falso. El Salón Azul acoge el banquete posterior. La ceremonia de entrega se celebra antes en Estocolmo; el Nobel de la Paz se entrega en Oslo."},
+      {label:"El Salón Dorado tiene mosaicos dorados en sus paredes.",answer:true,explanation:"Verdadero. Tras la cena Nobel, los invitados pasan al Salón Dorado, conocido por sus mosaicos de vidrio y pan de oro."},
+      {label:"Cualquiera puede llegar al Ayuntamiento y casarse sin reserva.",answer:false,explanation:"Falso. La ceremonia civil dura unos cinco minutos, pero se necesita reserva previa, identificación y la documentación exigida."}
+    ]
+  }];
+  mission.keys=1;
+})();
+
 // Revisión literal del Día 01 contra el guion V8 aceptado.
 // Se conservan únicamente correcciones ortográficas y de precisión histórica.
 (() => {
@@ -195,4 +230,10 @@
   Object.assign(m[7].contexts[2],{k:"PARADA 2 · EL CORO QUE YA NO ESTÁ Y EL CASTILLO QUE SE PERDIÓ",title:"Storkyrkan",html:`<p>Busca en el pavimento el contorno del antiguo coro medieval y después mira hacia el Palacio Real. Gustav Vasa ordenó desmontar el coro en el siglo XVI para mejorar el campo de tiro defensivo del castillo de <strong>Tre Kronor</strong>.</p><p>Tre Kronor fue el palacio-castillo de la monarquía hasta que un incendio lo destruyó en 1697. El Palacio Real actual ocupa el mismo gran entorno, pero no es el mismo edificio.</p>`});
   Object.assign(m[7].contexts[3],{html:`<p>Busca la piedra rúnica U 53, de alrededor de mil años y empotrada en el muro. Las runas no son un idioma: son signos de escritura.</p><p>Esta piedra contiene un texto en nórdico antiguo y conserva un mensaje familiar: «Torsten y Frögunn… la piedra en memoria de…, su hijo». El texto es incompleto: faltan fragmentos.</p><p>Lo preciso es decir: <strong>«Las runas son una forma de escribir; el idioma del texto puede ser nórdico antiguo.»</strong> No tocar ni frotar la piedra.</p>`});
   Object.assign(q[7],{explanation:"La ciudad conserva restos del pasado. Karin agradece que mantengamos viva la historia real de lo ocurrido."});
+})();
+
+// Debe aplicarse al final: las revisiones históricas anteriores también editan la misión 8.
+(()=>{const mission=window.DAY1_DATA.missions[7], question=mission.questions[0];
+  Object.assign(mission.contexts[6],{k:"MIRADOR · LAS TRES CORONAS",title:"Las tres coronas al otro lado del agua"});
+  Object.assign(question,{explanation:"Has distinguido el edificio, el Salón Azul y los grandes momentos que conserva.",success:"AYUNTAMIENTO LEÍDO CON PRECISIÓN."});
 })();

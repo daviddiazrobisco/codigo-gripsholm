@@ -1,5 +1,14 @@
 # Atribuciones de imágenes
 
+## Salón Azul del Ayuntamiento de Estocolmo
+
+- Archivo local: `blue-hall-stockholm-oyvind-holmstad.jpg`.
+- Título original: *5a11-Den blå hallen - the blue hall - Stockholm city hall.JPG*.
+- Autor: Øyvind Holmstad.
+- Fuente: https://commons.wikimedia.org/wiki/File:5a11-Den_bl%C3%A5_hallen_-_the_blue_hall_-_Stockholm_city_hall.JPG
+- Licencia: Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0).
+- Modificación: imagen reducida a 1.600 píxeles de ancho y comprimida para su uso en la app.
+
 ## Familia sámi en Jokkmokk
 
 - Archivo local: `familia-sami-jokkmokk-2025.jpg`

@@ -238,12 +238,19 @@
 
   function questionMarkup(q,scope){
     if(q.type==="single"||q.type==="multi")return optionMarkup(q,scope);
+    if(q.type==="trueFalse")return trueFalseMarkup(q,scope);
     if(q.type==="match")return matchMarkup(q,scope);
     if(q.type==="lakePlacement")return lakePlacementMarkup(q,scope);
     if(q.type==="order")return orderMarkup(q,scope);
     if(q.type==="explore")return exploreMarkup(q,scope);
     if(q.type==="speech")return speechQuestionMarkup(q,scope);
     return "";
+  }
+  function trueFalseMarkup(q,scope){
+    const p=prog(scope), index=p.index||0, item=q.items[index];
+    if(!item)return `<section class="puzzle-card"><p class="kicker">RETO COMPLETADO</p><p>${q.explanation||"Has comprobado las cinco afirmaciones."}</p></section>`;
+    const answered=typeof p.answer==="boolean";
+    return `<section class="puzzle-card true-false-card"><p class="kicker">AFIRMACIÓN ${index+1} DE ${q.items.length}</p><h3>${esc(item.label)}</h3>${answered?`<div class="feedback ${p.answer===item.answer?"":"bad"}"><strong>${p.answer===item.answer?"CORRECTO":"NO EXACTAMENTE"}</strong><p>${item.explanation}</p></div>`:`<div class="options"><button type="button" class="option" data-true-false="true">Verdadero</button><button type="button" class="option" data-true-false="false">Falso</button></div>`}</section>`;
   }
   function speechQuestionMarkup(q,scope){
     const p=prog(scope);
@@ -303,11 +310,21 @@
     if(prog(scope).complete){success(q,scope,correction);return}
     if(q.type==="single")return bindSingle(q,scope,correction);
     if(q.type==="multi")return bindMulti(q,scope,correction);
+    if(q.type==="trueFalse")return bindTrueFalse(q,scope,correction);
     if(q.type==="match")return bindMatch(q,scope,correction);
     if(q.type==="lakePlacement")return bindLakePlacement(q,scope,correction);
     if(q.type==="order")return bindOrder(q,scope,correction);
     if(q.type==="explore")return bindExplore(q,scope,correction);
     if(q.type==="speech")return bindSpeechQuestion(q,scope,correction);
+  }
+  function bindTrueFalse(q,scope,correction){
+    const p=prog(scope),index=p.index||0,item=q.items[index];
+    if(!item)return complete(q,scope,correction);
+    if(typeof p.answer!=="boolean"){
+      screen.querySelectorAll("[data-true-false]").forEach(b=>b.onclick=()=>{p.answer=b.dataset.trueFalse==="true";markAttempt(q,scope,p.answer===item.answer,correction);save();renderCurrent(q,correction)});
+      return setActions([{label:"Elige verdadero o falso",disabled:true,run:()=>{}}]);
+    }
+    setActions([{label:index===q.items.length-1?"Cerrar el reto":"Siguiente afirmación",run:()=>{p.index=index+1;delete p.answer;save();if(p.index>=q.items.length)complete(q,scope,correction);else renderCurrent(q,correction)}}]);
   }
   function bindSpeechQuestion(q,scope,correction){
     const p=prog(scope);
