@@ -478,7 +478,7 @@
     if(DATA.ending){
       setChrome({dark:true,progress:100});screen.className="screen dark";
       const p=DATA.ending[state.endingPage],image=/Margareta/.test(p.caption||"")?"margareta-nilsdotter-reconstruccion-v1.png":p.image;
-      screen.innerHTML=`${image?`<figure class="hero-photo character-hero"><img src="${imgBase+image}" alt="${p.alt||p.k}"><figcaption>${p.caption||"Saga · transmisión de la Carta"}</figcaption></figure>`:""}<p class="kicker">${p.k}</p><h2>${p.title}</h2>${p.html}${progressBlock(missions.length,missions.length,`Evidencias del Día ${DAY}`)}`;
+      screen.innerHTML=`${image?`<figure class="hero-photo character-hero"><img src="${imgBase+image}" alt="${p.alt||p.k}"><figcaption>${p.caption||"Saga · transmisión de la Carta"}</figcaption></figure>`:""}<p class="kicker">${p.k}</p><h2>${p.title}</h2>${p.visual?visual(p.visual,p,`ending-${state.endingPage}`,true):""}${p.html}${progressBlock(missions.length,missions.length,`Evidencias del Día ${DAY}`)}`;
       setActions([{label:p.action||"Continuar",run:()=>{if(state.endingPage<DATA.ending.length-1)state.endingPage++;else{state.stage="result";state.finished=true}save();render()}}],true);
       return;
     }
@@ -559,6 +559,7 @@
     if(kind==="d3Bernadotte")return d3BernadotteCard();
     if(kind==="d4TivedenMap")return d4TivedenMap();
     if(kind==="d4TrailPlanner")return d4TrailPlanner();
+    if(kind==="d4TrailExplorer")return d4TrailExplorer();
     if(kind==="d4Geology")return d4GeologyCard();
     if(kind==="d4Junker")return d4JunkerCard();
     if(kind==="d4Vitsand")return d4VitsandCard();
@@ -889,4 +890,5 @@
   $("#restart-btn").onclick=()=>{if(confirm(`¿Borrar todo el progreso del Día ${DAY}?`)){localStorage.removeItem(STORE);state=fresh();$("#menu-dialog").close();render()}};
   if("serviceWorker" in navigator&&location.protocol!=="file:")navigator.serviceWorker.register("service-worker.js?v=8-10").catch(()=>{});
   render();
+  function d4TrailExplorer(){return '<section class="trail-explorer"><iframe title="Mapa geográfico de Tiveden" src="https://www.openstreetmap.org/export/embed.html?bbox=14.51%2C58.69%2C14.75%2C58.85&layer=mapnik" loading="lazy"></iframe><p class="map-credit">Mapa geográfico · © OpenStreetMap contributors · Open Database License</p><div class="route-legend"><span><b>Vitsand</b> playa y entrada sur del parque.</span><span><b>Junker Jägares sten</b> se alcanza desde Vitsand por el sendero blanco.</span></div></section>'}
 })();
