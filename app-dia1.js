@@ -6,7 +6,7 @@
     document.body.innerHTML='<main class="screen"><h1>El día no se puede abrir todavía.</h1><p>Faltan las misiones de este archivo. Revisa el contenido del día antes de publicarlo.</p></main>';
     return;
   }
-  const invalidMission=DATA.missions.find((m,i)=>!m.title||!m.goal||!m.done||!m.speaker||!m.photo||!Array.isArray(m.questions)||!m.questions.length);
+  const invalidMission=DATA.missions.find((m,i)=>!m.title||!m.goal||!m.done||!m.speaker||!m.photo||(!m.consultation&&(!Array.isArray(m.questions)||!m.questions.length)));
   if(invalidMission){
     document.body.innerHTML=`<main class="screen"><h1>Hay una misión incompleta.</h1><p>La misión ${DATA.missions.indexOf(invalidMission)+1} necesita título, personaje, imagen, objetivo, evidencia y al menos un reto antes de poder publicarse.</p></main>`;
     return;
@@ -193,7 +193,7 @@
 
   function missionContext(){
     const m=missions[state.mission],c=m.contexts?.[state.contextPage];
-    if(!c){state.stage="key";save();return render()}
+    if(!c){state.stage=m.consultation?"missionEnd":"key";save();return render()}
     if(c.optionalQuiz){state.optionalFromContext=true;state.stage="optionalQuiz";save();return optionalQuiz()}
     setChrome({progress:(state.mission+(state.contextPage/(m.contexts.length+1)))/missions.length*100});
     screen.className=`screen${c.dark?" dark":""}`;
@@ -205,9 +205,10 @@
     const speechCard=c.speech?`<div class="speech-card"><button class="flashcard" id="flip-card" type="button" aria-label="Girar la tarjeta para ver la traducción"><span class="flash-front-speech"><small>TOCA PARA GIRAR</small><strong>${c.speech.word}</strong></span><span class="flash-back-speech"><small>EN ESPAÑOL</small><strong>${c.speech.meaning}</strong><em>${c.speech.tip}</em></span></button><div class="speech-controls"><button id="listen-model" type="button">▶ Escuchar modelo</button><button id="record-voice" type="button">● Grabar mi voz</button><button id="play-record" type="button" ${recordUrl?"":"disabled"}>▶ Mi grabación</button></div><p class="fine">La app no pone nota. Escucha, repite o continúa sin micrófono.</p></div>`:"";
     screen.innerHTML=`${c.character?`<figure class="hero-photo character-hero"><img src="${imgBase+image}" alt="${speaker} presenta ${c.title}"><figcaption>${speaker} · ${c.characterCaption||m.characterCaption||(speaker==="Saga"?"transmisión de la Carta":"reconstrucción narrativa")}</figcaption></figure>`:""}<p class="key-count">MISIÓN ${state.mission+1} DE ${missions.length} · CONTEXTO ${state.contextPage+1} DE ${m.contexts.length}</p>${progressBlock(state.contextPage,m.contexts.length,"Contextos leídos")}<p class="kicker">${c.k||"MIRAR Y ENTENDER"}</p><h2>${c.title}</h2>${mapImage}${visualBlock}${mediaGalleryBlock}<div class="context-copy">${c.html||""}</div>${speechCard}`;
     if(c.routeMap)bindRouteMap();
+    if(c.visual==="d4ParkRoutes")bindD4ParkRoutes();
     if(c.speech)bindSpeech(c.speech);
     const last=state.contextPage===m.contexts.length-1;
-    setActions([{label:c.action||(last?"Ir al reto":"Continuar"),run:()=>{if(last){state.key=0;state.stage="key"}else state.contextPage++;save();render()}}],!!c.dark);
+    setActions([{label:c.action||(last?(m.consultation?"Cerrar el mapa":"Ir al reto"):"Continuar"),run:()=>{if(last){state.key=0;state.stage=m.consultation?"missionEnd":"key"}else state.contextPage++;save();render()}}],!!c.dark);
   }
 
   function narrative(q){
@@ -560,6 +561,7 @@
     if(kind==="d4TivedenMap")return d4TivedenMap();
     if(kind==="d4TrailPlanner")return d4TrailPlanner();
     if(kind==="d4TrailExplorer")return d4TrailExplorer();
+    if(kind==="d4ParkRoutes")return d4ParkRoutes();
     if(kind==="d4Geology")return d4GeologyCard();
     if(kind==="d4Junker")return d4JunkerCard();
     if(kind==="d4Vitsand")return d4VitsandCard();
@@ -890,5 +892,36 @@
   $("#restart-btn").onclick=()=>{if(confirm(`¿Borrar todo el progreso del Día ${DAY}?`)){localStorage.removeItem(STORE);state=fresh();$("#menu-dialog").close();render()}};
   if("serviceWorker" in navigator&&location.protocol!=="file:")navigator.serviceWorker.register("service-worker.js?v=8-10").catch(()=>{});
   render();
-  function d4TrailExplorer(){return '<section class="trail-explorer"><iframe title="Mapa geográfico de Tiveden" src="https://www.openstreetmap.org/export/embed.html?bbox=14.51%2C58.69%2C14.75%2C58.85&layer=mapnik" loading="lazy"></iframe><p class="map-credit">Mapa geográfico · © OpenStreetMap contributors · Open Database License</p><div class="route-legend"><span><b>Vitsand</b> playa y entrada sur del parque.</span><span><b>Junker Jägares sten</b> se alcanza desde Vitsand por el sendero blanco.</span></div></section>'}
+  function d4ParkRoutes(){
+    const bounds=[14.548,14.620,58.710,58.735],W=520,H=315;
+    const tracks={
+      "Trehörningsrundan":{color:"#7650a1",km:"9,5 km · 4–5 h",p:[[14.56917,58.714],[14.56549,58.71231],[14.56022,58.71342],[14.55341,58.71493],[14.55278,58.71914],[14.55446,58.72494],[14.55606,58.7293],[14.56138,58.72823],[14.56848,58.72888],[14.57478,58.72551],[14.58215,58.71857],[14.59094,58.71561],[14.58431,58.715],[14.57772,58.71438],[14.57116,58.71654],[14.56917,58.714]]},
+      "Junker jägarerundan":{color:"#fff",edge:"#183d4c",km:"2,8 km · 1 h 30",p:[[14.56925,58.72877],[14.57203,58.73048],[14.57432,58.73255],[14.57635,58.73342],[14.57832,58.73232],[14.57638,58.73098],[14.57563,58.72902],[14.5756,58.72738],[14.57711,58.72661],[14.57832,58.72557],[14.57619,58.7254],[14.57321,58.72674],[14.56925,58.72877]]},
+      "Stigmansrundan":{color:"#2f7b68",km:"4,2 km · ~3 h",p:[[14.59195,58.71597],[14.59195,58.71752],[14.59377,58.71941],[14.59477,58.72165],[14.59383,58.72296],[14.58964,58.72322],[14.58583,58.72481],[14.58246,58.7258],[14.57866,58.72585],[14.57602,58.72507],[14.57847,58.72332],[14.58111,58.7217],[14.5847,58.72034],[14.58805,58.71843],[14.59135,58.71599]]},
+      "Trollkyrkorundan":{color:"#c44738",km:"4,6 km · ~3 h",p:[[14.59217,58.71565],[14.59715,58.7154],[14.60162,58.71583],[14.60424,58.71763],[14.60666,58.71932],[14.61067,58.72011],[14.61514,58.71856],[14.6136,58.71717],[14.61222,58.71509],[14.61008,58.71528],[14.60813,58.71532],[14.60711,58.71454],[14.60312,58.71444],[14.60008,58.71369],[14.59644,58.7143],[14.59217,58.71565]]}
+    };
+    const path=points=>points.map((x,i)=>{const q=project(x[0],x[1],bounds,W,H);return `${i?"L":"M"}${q[0].toFixed(1)},${q[1].toFixed(1)}`}).join("");
+    const places=[
+      {id:"vitsand",n:"Vitsand",sub:"Playa de arena · Stora Trehörningen",x:14.5692,y:58.7140,img:"vitsand-playa-2026.jpg",credit:"Foto aportada para este cuaderno, 2026",copy:"Arena clara y orilla de entrada suave. Si el tiempo y las ganas acompañan, es un buen lugar para parar o bañarse con prudencia."},
+      {id:"junker",n:"Junker Jägares sten",sub:"Bloque errático · ruta blanca",x:14.5764,y:58.7300,img:"junker-jagare-stone-public-domain.jpg",credit:"Imagen de apoyo del cuaderno",copy:"La vuelta blanca de 2,8 km llega a la roca. El hielo la trasladó y la dejó aquí al retirarse."},
+      {id:"stigman",n:"Stigmanspasset",sub:"Paso estrecho entre roca",x:14.5920,y:58.7160,img:"stigmanspasset-2026.jpg",credit:"Imagen aportada para este cuaderno",copy:"La ruta verde atraviesa un pasaje entre paredes de roca. El nombre alimenta historias de salteadores, aunque no prueba una emboscada concreta."},
+      {id:"trollkyrka",n:"Trollkyrka",sub:"Cumbres rocosas · ruta roja",x:14.6098,y:58.7200,img:"trolls-tiveden-recreacion-v1.png",credit:"Ilustración narrativa del cuaderno",copy:"Stora y Lilla Trollkyrka son cumbres rocosas y referencias del paisaje; el nombre pertenece a las leyendas, no a un templo de trolls."},
+      {id:"stenkallan",n:"Stenkällan",sub:"Bloques y cavidades",x:14.5846,y:58.7203,img:"",credit:"",copy:"Una parada para mirar las grietas, bloques y cavidades del granito. Está cerca de la ruta verde y se relaciona con la historia geológica del día."}
+    ];
+    const features=["<path class=\"tiveden-lake\" d=\"M38 270 Q88 208 142 228 Q174 242 189 196 Q202 155 238 147 Q271 139 302 163 Q340 190 379 164 Q416 140 477 178 L493 292 L38 292Z\"/>","<path class=\"tiveden-road\" d=\"M20 72 Q136 95 228 70 T500 95\"/>","<path class=\"tiveden-road minor\" d=\"M75 285 Q126 233 184 225 T309 170\"/>"];
+    Object.entries(tracks).forEach(([name,t])=>{const d=path(t.p);if(t.edge)features.push(`<path class=\"tiveden-track outline\" d=\"${d}\" style=\"--route:${t.edge}\"/><path class=\"tiveden-track\" data-route=\"${name}\" d=\"${d}\" style=\"--route:${t.color}\"/>`);else features.push(`<path class=\"tiveden-track\" data-route=\"${name}\" d=\"${d}\" style=\"--route:${t.color}\"/>`)});
+    places.forEach((p,i)=>{const q=project(p.x,p.y,bounds,W,H);features.push(`<g class=\"tiveden-place\" data-d4-place=\"${p.id}\" role=\"button\" tabindex=\"0\" aria-label=\"Abrir ${p.n}\"><circle cx=\"${q[0]}\" cy=\"${q[1]}\" r=\"13\"/><text x=\"${q[0]}\" y=\"${q[1]+4}\" text-anchor=\"middle\">${i+1}</text></g>`)});
+    return `<section class=\"tiveden-park-map\"><div class=\"tiveden-map-frame\"><svg viewBox=\"0 0 ${W} ${H}\" role=\"img\" aria-label=\"Mapa de orientación de Tiveden con cuatro rutas oficiales y cinco paradas\"><rect width=\"${W}\" height=\"${H}\" class=\"tiveden-land\"/>${features.join("")}<text class=\"tiveden-map-label\" x=\"24\" y=\"37\">NORTE · ENTRADAS DEL PARQUE</text><text class=\"tiveden-water-label\" x=\"77\" y=\"260\">STORA TREHÖRNINGEN</text></svg></div><div class=\"tiveden-route-key\">${Object.entries(tracks).map(([n,t])=>`<span><i style=\"--route:${t.color};--edge:${t.edge||t.color}\"></i><b>${n}</b><small>${t.km}</small></span>`).join("")}</div><p class=\"map-caption\">Trazados simplificados a partir de los GPX de las rutas oficiales. Toca un número para abrir la parada; para caminar, confirma siempre el mapa y la señalización del parque.</p><div id=\"d4-park-detail\" class=\"tiveden-place-detail\"><p><strong>Empieza por un número.</strong> Elige según lo que quieras ver: playa, roca, paso estrecho, cumbre o bloques.</p></div></section>`;
+  }
+  function bindD4ParkRoutes(){
+    const details={
+      vitsand:{n:"Vitsand",img:"vitsand-playa-2026.jpg",credit:"Foto aportada para este cuaderno, 2026",copy:"Arena clara y orilla de entrada suave. Si el tiempo y las ganas acompañan, es un buen lugar para parar o bañarse con prudencia."},
+      junker:{n:"Junker Jägares sten",img:"junker-jagare-stone-public-domain.jpg",credit:"Imagen de apoyo del cuaderno",copy:"La vuelta blanca de 2,8 km llega a la roca. El hielo la trasladó y la dejó aquí al retirarse."},
+      stigman:{n:"Stigmanspasset",img:"stigmanspasset-2026.jpg",credit:"Imagen aportada para este cuaderno",copy:"La ruta verde atraviesa un paso entre paredes de roca. El relato de salteadores es una leyenda, no una prueba de un asalto."},
+      trollkyrka:{n:"Trollkyrka",img:"trolls-tiveden-recreacion-v1.png",credit:"Ilustración narrativa del cuaderno",copy:"Son cumbres rocosas usadas como referencias del paisaje. El nombre pertenece a las leyendas, no demuestra un templo de trolls."},
+      stenkallan:{n:"Stenkällan",copy:"Aquí se miran bloques, grietas y cavidades del granito. Es una parada para conectar la excursión con la historia del hielo del Día 4."}
+    };
+    screen.querySelectorAll("[data-d4-place]").forEach(b=>b.onclick=()=>{const p=details[b.dataset.d4Place],d=$("#d4-park-detail");screen.querySelectorAll("[data-d4-place]").forEach(x=>x.classList.toggle("active",x===b));d.innerHTML=`${p.img?`<figure><img src=\"${imgBase+p.img}\" alt=\"${p.n}\"><figcaption>${p.credit}</figcaption></figure>`:""}<div><p class=\"kicker\">PARADA DEL MAPA</p><strong>${p.n}</strong><p>${p.copy}</p></div>`});
+  }
+  function d4TrailExplorer(){return ""}
 })();
