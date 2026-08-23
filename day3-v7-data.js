@@ -68,6 +68,13 @@ window.DAY1_DATA={
 
 /* El mapa conserva la geografía; las viñetas sustituyen el bloque largo de explicación. */
 (()=>{
+  const timeline=window.DAY1_DATA.missions[2].contexts[0];
+  timeline.title="Cuatro fechas para entender a Erik";
+  timeline.visual="d3BalticTimeline";
+  timeline.html=`<p class="fine">El mapa sitúa los reinos; las cuatro tarjetas ordenan la historia antes de entrar en el conflicto comercial.</p>`;
+})();
+
+(()=>{
   const c=window.DAY1_DATA.missions[2].contexts[1];
   c.title="Cuando las rutas se rompen";
   c.visual="d3BalticComic";
