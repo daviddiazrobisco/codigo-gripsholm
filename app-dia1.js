@@ -206,6 +206,7 @@
     screen.innerHTML=`${c.character?`<figure class="hero-photo character-hero"><img src="${imgBase+image}" alt="${speaker} presenta ${c.title}"><figcaption>${speaker} · ${c.characterCaption||m.characterCaption||(speaker==="Saga"?"transmisión de la Carta":"reconstrucción narrativa")}</figcaption></figure>`:""}<p class="key-count">MISIÓN ${state.mission+1} DE ${missions.length} · CONTEXTO ${state.contextPage+1} DE ${m.contexts.length}</p>${progressBlock(state.contextPage,m.contexts.length,"Contextos leídos")}<p class="kicker">${c.k||"MIRAR Y ENTENDER"}</p><h2>${c.title}</h2>${mapImage}${visualBlock}${mediaGalleryBlock}<div class="context-copy">${c.html||""}</div>${speechCard}`;
     if(c.routeMap)bindRouteMap();
     if(c.visual==="d4ParkRoutes")bindD4ParkRoutes();
+    if(c.visual==="d3OrebroExplorer")bindD3OrebroExplorer();
     if(c.speech)bindSpeech(c.speech);
     const last=state.contextPage===m.contexts.length-1;
     setActions([{label:c.action||(last?(m.consultation?"Cerrar el mapa":"Ir al reto"):"Continuar"),run:()=>{if(last){state.key=0;state.stage=m.consultation?"missionEnd":"key"}else state.contextPage++;save();render()}}],!!c.dark);
@@ -551,13 +552,18 @@
     if(kind==="d3Route")return d3RouteMap();
     if(kind==="d3Crossroads")return d3CrossroadsMap();
     if(kind==="d3Baltic")return d3BalticMap();
+    if(kind==="d3BalticComic")return d3BalticComic();
     if(kind==="d3Jens")return d3JensMap();
     if(kind==="d3Revolt")return d3RevoltMap();
     if(kind==="d3LastJourney")return d3LastJourneyMap();
     if(kind==="d3Erik")return d3ErikTimeline();
     if(kind==="d3Visit")return d3VisitCard();
     if(kind==="d3Culture")return d3CultureCard();
+    if(kind==="d3WadkopingIntro")return d3WadkopingIntro();
+    if(kind==="d3WadkopingEras")return d3WadkopingEras();
+    if(kind==="d3WadkopingPeople")return d3WadkopingPeople();
     if(kind==="d3Bernadotte")return d3BernadotteCard();
+    if(kind==="d3OrebroExplorer")return d3OrebroExplorer();
     if(kind==="d4TivedenMap")return d4TivedenMap();
     if(kind==="d4TrailPlanner")return d4TrailPlanner();
     if(kind==="d4TrailExplorer")return d4TrailExplorer();
@@ -681,12 +687,24 @@
   function d3RouteMap(){return d3MapCard("ESTOCOLMO → ÖREBRO → TIVEDEN",annotatedMap([12.5,19,58.45,60.05],[["Estocolmo",18.07,59.33,10,-12],["Mälaren",17.18,59.48,-54,-25],["Örebro",15.21,59.27,10,-14],["Hjälmaren",15.9,59.25,10,20],["Tiveden",14.65,58.75,-48,18],["Vänern",13.2,58.9,-38,-10],["Vättern",14.5,58.87,10,24]],[[18.07,59.33,15.21,59.27,"",""],[15.21,59.27,14.65,58.75,"","danger"]],"Ruta de Estocolmo a Örebro y Tiveden"),"Una misma orientación abre y cierra el día: ciudad marítima, cruce interior y bosque entre lagos.")}
   function d3CrossroadsMap(){return d3MapCard("ÖREBRO · RÍO, PUENTE Y CUATRO DIRECCIONES",annotatedMap([13.9,18.4,58.65,60.7],[["Bergslagen",15.3,60.1,-42,-12],["Mälaren / Estocolmo",17.18,59.48,10,-13],["Östergötland",15.8,58.82,10,18],["hacia Nidaros",14.2,60.45,-8,-12],["Örebro · Svartån",15.21,59.27,10,-12],["puente y castillo",15.25,59.3,10,20]],[[15.21,59.27,15.3,60.1,"",""],[15.21,59.27,17.18,59.48,"",""],[15.21,59.27,15.8,58.82,"","danger"],[15.21,59.27,14.2,60.45,"","danger"]],"Mapa de Örebro como cruce de rutas"),"No son carreteras modernas: las flechas muestran direcciones de relación. El río, el puente y el castillo concentraban paso, defensa y comercio.")}
   function d3BalticMap(){const trade=state.mission===2&&state.contextPage>0;const marks=[["Dinamarca",10.2,56,10,-10],["Kalmar",16.36,56.66,10,14],["Suecia",17,60.8,10,-10],["Bergslagen",15.3,60.05,-62,-10],["Pomerania",15.5,54.2,10,16]];if(trade)marks.push(["Lübeck · Hansa",10.7,53.9,-30,18],["Schleswig",9.5,54.8,-35,-12],["Holstein",9.8,54.15,-28,18]);return d3MapCard(trade?"BÁLTICO · COMERCIO Y CONFLICTO":"BÁLTICO · PODERES Y CONEXIONES",annotatedMap([7.8,21,53,62.4],marks,trade?[[15.3,60.05,10.7,53.9,"hierro y cobre",""],[10.7,53.9,15.3,60.05,"sal y otros bienes","danger"]]:[],"Mapa del Báltico, la Unión de Kalmar y las rutas comerciales"),trade?"La misma base añade lo que se dañó: salidas de hierro y cobre; entrada de sal y otros bienes. La Hansa era una red comercial, no un país único.":"Primera capa: una corona compartida no borraba leyes, élites ni necesidades propias de cada reino.")}
+  function d3BalticComic(){
+    const scenes=[
+      ["comic-bergslagen-01-comercio.jpg","Viñeta 1: comercio entre Bergslagen y Lübeck"],
+      ["comic-bergslagen-02-conflicto.jpg","Viñeta 2: Erik de Pomerania y el conflicto por Schleswig"],
+      ["comic-bergslagen-03-ruta.jpg","Viñeta 3: una ruta comercial interrumpida"],
+      ["comic-bergslagen-04-protesta.jpg","Viñeta 4: Engelbrekt explica las consecuencias en Bergslagen"]
+    ];
+    return `${d3BalticMap()}<section class="bergslagen-comic" aria-label="Cuatro viñetas sobre comercio, guerra e impuestos"><p class="kicker">CUATRO VIÑETAS · DEL MAR A BERGSLAGEN</p>${scenes.map((scene,i)=>`<figure><img src="${imgBase+scene[0]}" alt="${scene[1]}" loading="lazy"><figcaption>VIÑETA ${i+1} DE 4</figcaption></figure>`).join("")}</section>`;
+  }
   function d3JensMap(){return d3MapCard("BERGSLAGEN → VÄSTERÅS · LAS QUEJAS",annotatedMap([14.3,18.2,58.95,60.7],[["Bergslagen",15.3,60.1,-50,-12],["Västerås",16.55,59.61,10,-12],["Örebro",15.21,59.27,-46,18],["Estocolmo",18.07,59.33,-55,-12]],[[15.3,60.1,16.55,59.61,"quejas y administración","danger"]],"Mapa de Bergslagen, Västerås y Örebro"),"Jens Eriksson era el bailío real en Västerås: allí convergían impuestos, administración y las reclamaciones de Bergslagen.")}
   function d3RevoltMap(){return d3MapCard("1434–1435 · LA PROTESTA SE EXTIENDE",annotatedMap([14.3,17.4,59.0,60.7],[["Bergslagen",15.3,60.1,-46,-12],["Borganäs",15.3,60.3,10,-12],["Västerås",16.55,59.61,10,-12],["Örebro",15.21,59.27,-44,18],["Arboga",15.84,59.39,10,20]],[[15.3,60.1,16.55,59.61,"","danger"],[16.55,59.61,15.21,59.27,"",""],[15.21,59.27,15.84,59.39,"1435","danger"]],"Expansión de la rebelión de Engelbrekt"),"La misma región de la pantalla anterior cambia de lectura: de una queja contra un funcionario a una crisis que alcanza fortalezas, ciudades y negociación.")}
   function d3LastJourneyMap(){return d3MapCard("ÖREBRO → HJÄLMAREN → ENGELBREKTSHOLMEN",annotatedMap([14.8,16.35,59.05,59.5],[["Örebro",15.21,59.27,-42,-14],["Hjälmaren",15.72,59.29,10,-12],["Engelbrektsholmen",15.87,59.2,-110,24],["Göksholm",15.88,59.19,12,20]],[[15.21,59.27,15.87,59.2,"trayecto documentado",""]],"Último viaje documentado de Engelbrekt"),"La reunión política prevista era en Estocolmo, pero la fuente no permite dibujar cada tramo posterior. El mapa muestra solo los lugares documentados.")}
   function d3ErikTimeline(){return d3MapCard("ERIK DE POMERANIA · 1434–1442",`<div class="history-timeline"><div><strong>1434</strong><span>rebelión y consejos limitan su autoridad</span></div><div><strong>1436</strong><span>muere Engelbrekt; la crisis continúa</span></div><div><strong>1436–1439</strong><span>Erik se instala en Gotland</span></div><div><strong>1439</strong><span>Dinamarca y Suecia lo deponen</span></div><div><strong>1441–1442</strong><span>Noruega lo aparta y acepta a Cristóbal</span></div></div>`,"La autoridad de Erik se fue quedando sin apoyos; la Unión de Kalmar continuó de otra forma.")}
   function d3VisitCard(){return `<div class="visual-evidence"><figure class="vasa-photo"><img src="${imgBase}orebro-castle-cc0.jpg" alt="Castillo de Örebro rodeado por el Svartån"><figcaption>Castillo de Örebro · agua, paso y defensa</figcaption></figure><figure class="vasa-photo"><img src="${imgBase}engelbrekt-statue-orebro.jpg" alt="Estatua posterior de Engelbrekt en Örebro"><figcaption>Estatua posterior · memoria de Engelbrekt, no retrato exacto</figcaption></figure></div>`}
   function d3CultureCard(){return `<div class="visual-evidence"><figure class="vasa-photo"><img src="${imgBase}hjalmar-bergman-public-domain.jpg" alt="Retrato histórico de Hjalmar Bergman"><figcaption>Hjalmar Bergman · no era familia de Ingmar Bergman</figcaption></figure><div class="evidence-grid"><div><b>1755 · CAJSA WARG</b><span>recetario influyente, no una cita literal de «se toma lo que se tiene»</span></div></div></div>`}
+  function d3WadkopingIntro(){return `<figure class="wadkoping-photo"><img src="${imgBase}Wadköping_i_Örebro.jpg" alt="Casas históricas de madera en Wadköping"><figcaption><strong>CASAS REALES · OTRO LUGAR</strong><span>Edificios históricos de madera reunidos junto al Svartån.</span></figcaption></figure>`}
+  function d3WadkopingEras(){return `<section class="wadkoping-eras" aria-label="Las dos épocas representadas en Wadköping"><p class="kicker">UNA CALLE · DOS ÉPOCAS</p><div class="wadkoping-era old"><b>ANTES DE 1854</b><span>Casas bajas de madera de los siglos XVII, XVIII y comienzos del XIX.</span></div><div class="wadkoping-era after"><b>DESPUÉS DEL INCENDIO</b><span>El Örebro que se reconstruyó tras el gran incendio de 1854.</span></div><p>Las dos partes pertenecen a la historia de Örebro, aunque hoy estén reunidas en Wadköping.</p></section>`}
+  function d3WadkopingPeople(){return `<section class="wadkoping-people" aria-label="Cajsa Warg y Hjalmar Bergman"><article><b>CAJSA WARG · LA CASA</b><span>Borgarhuset fue su casa de infancia. Hoy contiene una exposición sobre cocina y vida cotidiana del siglo XVIII.</span></article><figure><img src="${imgBase}hjalmar-bergman-public-domain.jpg" alt="Retrato histórico de Hjalmar Bergman"><figcaption><b>HJALMAR BERGMAN · EL NOMBRE</b><span>Inventó el Wadköping literario. El museo está aquí; no era su casa.</span></figcaption></figure></section>`}
   function d3BernadotteCard(){return `<div class="visual-evidence"><figure class="vasa-photo"><img src="${imgBase}bernadotte-public-domain.jpg" alt="Retrato de Jean Baptiste Bernadotte"><figcaption>Jean Baptiste Bernadotte · elegido heredero en Örebro en 1810</figcaption></figure><div class="history-timeline"><div><strong>1434–1435</strong><span>Örebro en la crisis de Engelbrekt</span></div><div><strong>1810</strong><span>elección de Bernadotte como heredero</span></div></div></div>`}
   function d4Card(kicker,body,caption){return `<div class="puzzle-card map-card"><p class="kicker">${kicker}</p>${body}${caption?`<p class="map-caption">${caption}</p>`:""}</div>`}
   function d4TivedenMap(){return d4Card("ÖREBRO → TIVEDEN · ENTRE DOS GRANDES LAGOS",annotatedMap([12.6,16.5,58.3,59.65],[["Örebro",15.21,59.27,10,-12],["Tiveden",14.65,58.75,10,20],["Vänern",13.2,58.9,-39,-10],["Vättern",14.5,58.68,10,22]],[[15.21,59.27,14.65,58.75,"","danger"]],"Mapa de orientación de Tiveden entre Vänern y Vättern"),"Primero situamos el paisaje. Los detalles de senderos, Stenkälla y seguridad están en la ficha oficial de la ruta.")}
@@ -908,7 +926,36 @@
     ];
     const show=p=>{const d=$("#d4-park-detail");d.innerHTML=`<figure><img src="${imgBase+p.img}" alt="${p.n}"><figcaption>${p.credit}</figcaption></figure><div><p class="kicker">PARADA DEL MAPA</p><strong>${p.n}</strong><p>${p.copy}</p></div>`};
     const start=()=>{const el=$("#d4-real-map");if(!el||el.dataset.ready)return;el.dataset.ready="1";const map=L.map(el,{scrollWheelZoom:false,attributionControl:true}),group=L.featureGroup();L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",{maxZoom:18,attribution:"© OpenStreetMap contributors"}).addTo(map);tracks.forEach(t=>{const line=t.p.map(x=>[x[1],x[0]]);if(t.under){group.addLayer(L.polyline(line,{color:t.c,weight:9,opacity:.95}));group.addLayer(L.polyline(line,{color:"#fff",weight:5,opacity:1,dashArray:"8 6"}))}else group.addLayer(L.polyline(line,{color:t.c,weight:5,opacity:.92,dashArray:"8 6"}))});places.forEach((p,i)=>{const icon=L.divIcon({className:"d4-map-number",html:String(i+1),iconSize:[31,31],iconAnchor:[15,15]});const marker=L.marker(p.ll,{icon}).addTo(map).on("click",()=>show(p));group.addLayer(marker)});group.addTo(map);map.fitBounds(group.getBounds().pad(.12));setTimeout(()=>map.invalidateSize(),120)};
-    if(window.L){start();return}const css=document.createElement("link");css.rel="stylesheet";css.href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css";document.head.appendChild(css);const script=document.createElement("script");script.src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js";script.onload=start;script.onerror=()=>{$("#d4-real-map").innerHTML="<p>No se ha podido cargar el mapa geográfico. Abre el enlace oficial de rutas para consultarlo.</p>"};document.head.appendChild(script);
+    loadLeaflet(start);
   }
   function d4TrailExplorer(){return ""}
+  function d3OrebroExplorer(){return `<section class="orebro-city-explorer"><div id="d3-orebro-real-map" class="orebro-real-map" role="img" aria-label="Mapa geográfico de Örebro con Wadköping, el castillo y las estatuas de Engelbrekt y Karl XIV Johan"><p>Cargando el mapa real de Örebro…</p></div><p class="map-caption">Mapa urbano real: río Svartån, calles y parques están a escala. Los cuatro números marcan lugares de la historia del Día 3.</p><div id="d3-orebro-detail" class="orebro-place-detail"><p><strong>Toca un número.</strong> Se abrirá una foto y una explicación breve.</p></div></section>`}
+  function loadLeaflet(callback){
+    if(window.L){callback();return}
+    window.__gripsholmLeafletCallbacks=window.__gripsholmLeafletCallbacks||[];
+    window.__gripsholmLeafletCallbacks.push(callback);
+    if(window.__gripsholmLeafletLoading)return;
+    window.__gripsholmLeafletLoading=true;
+    const css=document.createElement("link");css.rel="stylesheet";css.href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css";document.head.appendChild(css);
+    const script=document.createElement("script");script.src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js";
+    script.onload=()=>{const callbacks=window.__gripsholmLeafletCallbacks||[];window.__gripsholmLeafletCallbacks=[];callbacks.forEach(fn=>fn())};
+    script.onerror=()=>{window.__gripsholmLeafletLoading=false;document.querySelectorAll(".orebro-real-map,.tiveden-real-map").forEach(el=>{if(!el.dataset.ready)el.innerHTML="<p>No se ha podido cargar el mapa geográfico. Comprueba la conexión e inténtalo de nuevo.</p>"})};
+    document.head.appendChild(script);
+  }
+  function bindD3OrebroExplorer(){
+    const places=[
+      {n:"Wadköping",ll:[59.27256,15.23223],img:"Wadköping_i_Örebro.jpg",credit:"Foto de Wadköping · Wikimedia Commons",copy:"Museo al aire libre con casas históricas trasladadas desde Örebro y sus alrededores. Está junto al Svartån, tras el Stadsparken."},
+      {n:"Castillo de Örebro",ll:[59.27420,15.21480],img:"orebro-castle-cc0.jpg",credit:"Foto del castillo · CC0",copy:"Fortaleza levantada en un islote del Svartån. El agua, el puente y la defensa explican por qué este paso tenía poder."},
+      {n:"Engelbrekt",ll:[59.273967,15.215228],img:"engelbrekt-statue-orebro.jpg",credit:"Foto: Einarspetz · CC BY-SA 3.0 · Wikimedia Commons",copy:"Estatua posterior de Engelbrekt Engelbrektsson junto al castillo. Sirve para recordar la figura histórica; no es un retrato de su aspecto real."},
+      {n:"Karl XIV Johan",ll:[59.27482,15.21449],img:"bernadotte-public-domain.jpg",credit:"Foto histórica de Jean Baptiste Bernadotte · dominio público",copy:"La estatua de Karl XIV Johan está en Henry Allards park. Bernadotte fue elegido heredero de Suecia en la Dieta de Örebro de 1810."}
+    ];
+    const start=()=>{const el=$("#d3-orebro-real-map");if(!el||el.dataset.ready)return;el.dataset.ready="1";
+      const map=L.map(el,{scrollWheelZoom:false,attributionControl:true}),group=L.featureGroup();
+      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",{maxZoom:19,attribution:"© OpenStreetMap contributors"}).addTo(map);
+      const show=p=>{const d=$("#d3-orebro-detail");d.innerHTML=`<figure><img src="${imgBase+p.img}" alt="${p.n}"><figcaption>${p.credit}</figcaption></figure><div><p class="kicker">PARADA DEL MAPA</p><strong>${p.n}</strong><p>${p.copy}</p></div>`};
+      places.forEach((p,i)=>{const icon=L.divIcon({className:"d3-city-number",html:String(i+1),iconSize:[31,31],iconAnchor:[15,15]});const marker=L.marker(p.ll,{icon}).addTo(map).on("click",()=>show(p));group.addLayer(marker)});
+      group.addTo(map);map.fitBounds(group.getBounds().pad(.23),{padding:[18,18]});setTimeout(()=>map.invalidateSize(),120);
+    };
+    loadLeaflet(start);
+  }
 })();
