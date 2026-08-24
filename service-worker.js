@@ -1,4 +1,4 @@
-const CACHE="gripsholm-v8-days00-10-v80";
+const CACHE="gripsholm-v8-days00-10-v81";
 const FILES=[
   "./","./index.html","./dia0.html","./dia1.html","./dia2.html","./dia3.html","./dia4.html","./dia5.html","./dia6.html","./dia7.html","./dia8.html","./dia9.html","./dia10.html","./styles.css","./connection-status.js","./app.js","./app-dia1.js","./app-dia2.js","./app-dia5.js","./app-dia6.js","./day0-v7-data.js","./day1-v7-data.js","./day2-v7-data.js","./day3-v7-data.js","./day4-v7-data.js","./day5-v7-data.js","./day6-v7-data.js","./day7-v7-data.js","./day8-v7-data.js","./day9-v7-data.js","./day10-v7-data.js","./manifest.webmanifest","./assets/icons/icon-192.png","./assets/icons/icon-512.png","./assets/icons/icon.svg",
   "./assets/data/nordic-map-data.js","./assets/data/world-map-data.js",
@@ -73,8 +73,12 @@ self.addEventListener("install",event=>event.waitUntil(caches.open(CACHE).then(c
 self.addEventListener("activate",event=>event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(key=>key!==CACHE).map(key=>caches.delete(key)))).then(()=>self.clients.claim())));
 self.addEventListener("fetch",event=>{
   if(event.request.method!=="GET")return;
-  event.respondWith(caches.match(event.request,{ignoreSearch:true}).then(hit=>hit||fetch(event.request).then(response=>{
-    if(response.ok&&new URL(event.request.url).origin===location.origin){const copy=response.clone();caches.open(CACHE).then(cache=>cache.put(event.request,copy));}
+  const url=new URL(event.request.url);
+  const isAppShell=url.origin===location.origin&&(event.request.mode==="navigate"||/\.(?:html|js|css|webmanifest)$/i.test(url.pathname));
+  const fromNetwork=()=>fetch(event.request).then(response=>{
+    if(response.ok&&url.origin===location.origin){const copy=response.clone();caches.open(CACHE).then(cache=>cache.put(event.request,copy));}
     return response;
-  }).catch(()=>event.request.mode==="navigate"?caches.match("./index.html"):Response.error())));
+  });
+  if(isAppShell){event.respondWith(fromNetwork().catch(()=>caches.match(event.request,{ignoreSearch:true}).then(hit=>hit||(event.request.mode==="navigate"?caches.match("./index.html"):Response.error()))));return;}
+  event.respondWith(caches.match(event.request,{ignoreSearch:true}).then(hit=>hit||fromNetwork().catch(()=>event.request.mode==="navigate"?caches.match("./index.html"):Response.error())));
 });
