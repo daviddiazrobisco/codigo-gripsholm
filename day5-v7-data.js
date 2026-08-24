@@ -84,6 +84,33 @@ window.DAY1_DATA={
   m[5].questions.push({id:"d5v4m6k3",type:"match",visual:"d5LakeLife",title:"No todos los peces viven en el mismo piso",scene:"La orilla, el agua abierta y la profundidad ofrecen ambientes distintos.",prompt:"Relaciona cada pez con una forma sencilla de reconocer su hábitat.",pairs:[["Lucio","cazador de orillas y vegetación"],["Perca","zonas litorales y aguas intermedias"],["Salmón de lago","agua abierta"],["Salvelino ártico","agua profunda, fría y bien oxigenada"]],hint:"El pez adaptado al frío busca la profundidad.",success:"VIDA BAJO EL AGUA",explanation:"Un lago profundo no es una sola habitación: sus temperaturas y hábitats cambian con la profundidad."});
 })();
 
+/* Misión opcional de consulta: Hjo para visitar a pie. */
+(()=>{
+  const m=window.DAY1_DATA.missions;
+  m.push({
+    title:"Una vuelta corta por Hjo",
+    speaker:"Saga",
+    photo:"saga-transmision-inicial.png",
+    characterCaption:"transmisión de la Carta · mapa de consulta",
+    consultation:true,
+    time:"consulta opcional",
+    action:"Abrir el mapa de Hjo",
+    obstacle:"No hay nada que descifrar: solo seis paradas que ayudan a orientarse en la ciudad junto a Vättern.",
+    goal:"Ubicar un paseo corto por Hjo y elegir con criterio si el tiempo de visita es limitado.",
+    done:"Quedan reunidos puerto, helado, parque, plaza, madera y vapor en un mismo mapa urbano.",
+    reaction:"Un buen mapa de visita no sustituye al paseo: sirve para decidir por dónde empezar.",
+    closing:"Hjo queda disponible como una misión de consulta, sin reto ni respuesta correcta.",
+    contexts:[{
+      character:true,
+      k:"HJO · MAPA DE CONSULTA",
+      title:"Si tienes poco tiempo, empieza por Hjo",
+      visual:"d5HjoExplorer",
+      html:`<p><strong>Esta misión es solo de consulta:</strong> no hay que adivinar ni completar un reto. Toca un número o una ficha para reconocer cada parada.</p><p>La vuelta corta reúne puerto, helado, parque, plaza, calle de madera y vapor. <strong>Si tienes que elegir entre Hjo y Karlsborg con poco tiempo, prioriza Hjo:</strong> todo se concentra en un paseo corto junto a Vättern.</p><p>El mapa usa coordenadas reales; las fichas conservan la foto, el crédito y una explicación breve.</p>`,
+      action:"Cerrar el mapa"
+    }]
+  });
+})();
+
 (()=>{
   const m=window.DAY1_DATA.missions;
   m[0].contexts.splice(1,1);

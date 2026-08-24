@@ -207,6 +207,7 @@
     if(c.routeMap)bindRouteMap();
     if(c.visual==="d4ParkRoutes")bindD4ParkRoutes();
     if(c.visual==="d3OrebroExplorer")bindD3OrebroExplorer();
+    if(c.visual==="d5HjoExplorer")bindD5HjoExplorer();
     if(c.speech)bindSpeech(c.speech);
     const last=state.contextPage===m.contexts.length-1;
     setActions([{label:c.action||(last?(m.consultation?"Cerrar el mapa":"Ir al reto"):"Continuar"),run:()=>{if(last){state.key=0;state.stage=m.consultation?"missionEnd":"key"}else state.contextPage++;save();render()}}],!!c.dark);
@@ -594,6 +595,7 @@
     if(kind==="d5Water")return d5WaterCard();
     if(kind==="d5LakeLife")return d5LakeLifeCard();
     if(kind==="d5Hjo")return d5HjoMap();
+    if(kind==="d5HjoExplorer")return d5HjoExplorer();
     if(kind==="d5Culture")return d5CultureCard();
     if(kind==="d5Trafik")return d5TrafikCard();
     if(kind==="d5Swedish")return d5SwedishCard();
@@ -952,7 +954,7 @@
     const css=document.createElement("link");css.rel="stylesheet";css.href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css";document.head.appendChild(css);
     const script=document.createElement("script");script.src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js";
     script.onload=()=>{const callbacks=window.__gripsholmLeafletCallbacks||[];window.__gripsholmLeafletCallbacks=[];callbacks.forEach(fn=>fn())};
-    script.onerror=()=>{window.__gripsholmLeafletLoading=false;document.querySelectorAll(".orebro-real-map,.tiveden-real-map").forEach(el=>{if(!el.dataset.ready)el.innerHTML="<p>No se ha podido cargar el mapa geográfico. Comprueba la conexión e inténtalo de nuevo.</p>"})};
+    script.onerror=()=>{window.__gripsholmLeafletLoading=false;document.querySelectorAll(".orebro-real-map,.tiveden-real-map,.hjo-real-map").forEach(el=>{if(!el.dataset.ready)el.innerHTML="<p>No se ha podido cargar el mapa geográfico. Comprueba la conexión e inténtalo de nuevo.</p>"})};
     document.head.appendChild(script);
   }
   function bindD3OrebroExplorer(){
@@ -965,6 +967,27 @@
       group.addTo(map);map.fitBounds(group.getBounds().pad(.23),{padding:[18,18]});setTimeout(()=>map.invalidateSize(),120);
     };
     document.querySelectorAll("[data-d3-place]").forEach(card=>card.onclick=()=>select(places.find(p=>p.id===card.dataset.d3Place)));
+    loadLeaflet(start);
+  }
+  function d5HjoPlaces(){return [
+    {id:"port",n:"Puerto de Hjo",ll:[58.30303,14.29556],img:"hjo-puerto-commons.jpg",credit:"Foto: AleWi · CC BY-SA 4.0 · Wikimedia Commons",copy:"El puerto abre Hjo a Vättern: aquí se entiende la llegada por agua, el paseo de la orilla y la escala tranquila de la ciudad.",tip:{direction:"right",offset:[18,-13]}},
+    {id:"icecream",n:"Moster Elins Glasscafé",ll:[58.30269,14.29375],img:"hjo-puerto-commons.jpg",credit:"Foto del puerto: AleWi · CC BY-SA 4.0 · Wikimedia Commons",copy:"La heladería está en Hamnvaktstugan, junto al puerto. Es una parada muy conocida para tomar un helado antes o después del paseo.",tip:{direction:"left",offset:[-17,-18]}},
+    {id:"park",n:"Hjo Stadspark",ll:[58.30602,14.29720],img:"hjo-stadspark-commons.jpg",credit:"Foto: Sinikka Halme · CC BY-SA 4.0 · Wikimedia Commons",copy:"El parque de la orilla conserva la huella de Hjo como ciudad balnearia: césped, árboles, villas y espacio para mirar el lago.",tip:{direction:"right",offset:[18,0]}},
+    {id:"square",n:"Stora Torget",ll:[58.30126,14.28796],img:"hjo-stora-torget-commons.jpg",credit:"Foto: Bengt Oberger · CC BY-SA 4.0 · Wikimedia Commons",copy:"La plaza principal reúne el centro histórico. Desde aquí se entiende cómo el comercio y la vida cotidiana se alejaban unos minutos del puerto.",tip:{direction:"left",offset:[-18,-9]}},
+    {id:"street",n:"Långgatan",ll:[58.30073,14.28814],img:"hjo-langgatan-commons.jpg",credit:"Foto: Bengt Oberger · CC BY-SA 4.0 · Wikimedia Commons",copy:"Una calle de casas de madera del centro. Sirve para leer Hjo como ciudad vivida, no como un decorado: viviendas, pequeñas tiendas y fachadas cuidadas.",tip:{direction:"bottom",offset:[0,18]}},
+    {id:"trafik",n:"S/S Trafik",ll:[58.30253,14.29467],img:"hjo-ss-trafik-commons.jpg",credit:"Foto: Sinikka Halme · CC BY-SA 4.0 · Wikimedia Commons",copy:"El vapor de 1892 sigue contando la conexión de los puertos de Vättern. Es el mejor punto para relacionar Hjo con las rutas por el lago.",tip:{direction:"bottom",offset:[0,18]}}
+  ]}
+  function d5HjoExplorer(){const places=d5HjoPlaces();return `<section class="hjo-city-explorer"><div id="d5-hjo-real-map" class="hjo-real-map" role="img" aria-label="Mapa urbano real de Hjo con puerto, heladería, parque, plaza, Långgatan y vapor S S Trafik"><p>Cargando el mapa real de Hjo…</p></div><p class="map-caption">Mapa urbano real: las seis paradas están colocadas por coordenadas. Toca un número o una ficha para destacar el lugar.</p>${mapPlaceCards("d5hjo",places)}</section>`}
+  function bindD5HjoExplorer(){
+    const places=d5HjoPlaces();
+    const select=p=>document.querySelectorAll("[data-d5hjo-place]").forEach(card=>card.classList.toggle("active",card.dataset.d5hjoPlace===p.id));
+    const start=()=>{const el=$("#d5-hjo-real-map");if(!el||el.dataset.ready)return;el.dataset.ready="1";
+      const map=L.map(el,{scrollWheelZoom:false,attributionControl:true}),group=L.featureGroup();
+      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",{maxZoom:19,attribution:"© OpenStreetMap contributors"}).addTo(map);
+      places.forEach((p,i)=>{const icon=L.divIcon({className:"d5-hjo-number",html:String(i+1),iconSize:[31,31],iconAnchor:[15,15]});const marker=L.marker(p.ll,{icon}).addTo(map).on("click",()=>select(p));marker.bindTooltip(`${i+1} · ${p.n}`,{permanent:true,direction:p.tip.direction,offset:p.tip.offset,className:"map-place-label"});group.addLayer(marker)});
+      group.addTo(map);map.fitBounds(group.getBounds().pad(.27),{padding:[18,18]});setTimeout(()=>map.invalidateSize(),120);
+    };
+    document.querySelectorAll("[data-d5hjo-place]").forEach(card=>card.onclick=()=>select(places.find(p=>p.id===card.dataset.d5hjoPlace)));
     loadLeaflet(start);
   }
 })();
