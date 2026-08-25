@@ -636,6 +636,7 @@
     if(kind==="d7Birds")return d7BirdsCard();
     if(kind==="d8Route")return d8RouteMap();
     if(kind==="d8Peat")return d8PeatCard();
+    if(kind==="d8StoreMosseTime")return d8StoreMosseTimeCard();
     if(kind==="d8CompareRaised")return d8CompareRaisedCard();
     if(kind==="d8CompareScale")return d8CompareScaleCard();
     if(kind==="d8CompareWater")return d8CompareWaterCard();
@@ -819,6 +820,7 @@
   function d8CoreCard(){return d8Card("TESTIGO DE TURBA · MUESTRA CIENTÍFICA",`<div class="history-timeline"><div><strong>SUPERFICIE</strong><span>capas más recientes y musgos vivos</span></div><div><strong>PROFUNDIDAD</strong><span>capas normalmente más antiguas</span></div><div><strong>LABORATORIO</strong><span>carbono 14, polen, semillas y otras señales</span></div></div>`,"Una imagen de turba no puede fecharse sola. No se excava ni se recogen muestras en el parque.")}
   function d8DroseraCard(){return d8Card("DROSERA · MIRAR, NO TOCAR",`<div class="evidence-grid two"><div><b>SUELO POBRE</b><span>pocos nutrientes en una turbera elevada</span></div><div><b>GOTAS PEGAJOSAS</b><span>atrapan insectos para obtener parte de lo que escasea</span></div></div>`,"Una adaptación natural interesante no es una invitación a tocar la planta.")}
   function d8ImageCard(k,file,alt,caption,note){return d8Card(k,`<figure class="visual-evidence peat-figure d8-mobile-figure"><img src="${imgBase}${file}" alt="${alt}" decoding="sync"><figcaption>${caption}</figcaption></figure>`,note)}
+  function d8StoreMosseTimeCard(){return d8ImageCard("BAJA POR STORE MOSSE", "d8-store-mosse-14000-anos.jpg", "Corte vertical de Store Mosse desde la turbera actual hasta el hielo, el lago y la tundra de hace catorce mil años", "Las fechas son aproximadas: los cambios no ocurrieron de golpe ni el mismo día en todo el parque.", "Antes de la turba hubo un lago. Un testigo ayuda a convertir estas capas en una historia que se puede comprobar.")}
   function d8CompareRaisedCard(){return d8ImageCard("KOMOSSE Y STORE MOSSE", "d8-komosse-store-dos-turberas-mobile-v2.jpg", "Dos cortes de turberas elevadas, Komosse y Store Mosse, alimentadas principalmente por lluvia", "Las dos tienen zonas de turbera elevada: la turba se acumula y crece hacia arriba.", "Komosse no es una única turbera uniforme, pero sus zonas elevadas permiten entender muy bien este mecanismo.")}
   function d8CompareScaleCard(){return d8ImageCard("PARECIDAS, PERO NO IGUALES", "d8-komosse-store-comparacion-mobile-v2.jpg", "Comparación visual entre Komosse y Store Mosse", "Komosse ayuda a entender las capas; Store Mosse muestra lo que ocurre cuando el proceso ocupa un paisaje enorme.", "La comparación sirve para transferir la idea, no para convertir dos paisajes distintos en el mismo lugar.")}
   function d8CompareWaterCard(){return d8ImageCard("EL AGUA DECIDE", "d8-komosse-tipos-agua-mobile-v2.jpg", "Comparación entre turbera elevada, turbera baja y bosque húmedo según el origen del agua", "Un humedal no se define solo porque esté mojado: importa de dónde llega su agua.", "La lluvia, el agua del terreno y el relieve cambian las plantas y la forma de la turba.")}
