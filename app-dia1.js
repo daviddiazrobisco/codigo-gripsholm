@@ -210,6 +210,7 @@
     if(c.visual==="d5HjoExplorer")bindD5HjoExplorer();
     if(c.visual==="d6HansaExplorer")bindD6HansaExplorer();
     if(c.visual==="d6GothenburgExplorer")bindD6GothenburgExplorer();
+    if(c.visual==="d2StockholmExplorer")bindD2StockholmExplorer();
     if(c.speech)bindSpeech(c.speech);
     const last=state.contextPage===m.contexts.length-1;
     setActions([{label:c.action||(last?(m.consultation?"Cerrar el mapa":"Ir al reto"):"Continuar"),run:()=>{if(last){state.key=0;state.stage=m.consultation?"missionEnd":"key"}else state.contextPage++;save();render()}}],!!c.dark);
@@ -540,6 +541,7 @@
     if(kind==="finalSignal")return timelineSignal();
     if(kind==="d2Port")return /ruta que el Vasa/i.test(q?.title||"")?d2RouteMap():d2StockholmMap();
     if(kind==="d2StockholmMap")return d2StockholmMap();
+    if(kind==="d2StockholmExplorer")return d2StockholmExplorer();
     if(kind==="d2RouteMap")return d2RouteMap();
     if(kind==="d2WarMap")return d2WarMap();
     if(kind==="d2War")return d2WarMap();
@@ -1051,5 +1053,21 @@
   function bindD6HansaExplorer(){bindD6Explorer("d6hansa",d6HansaPlaces())}
   function d6GothenburgExplorer(){return d6Explorer("d6gbg",d6GothenburgPlaces(),"Mapa urbano de Gotemburgo")}
   function bindD6GothenburgExplorer(){bindD6Explorer("d6gbg",d6GothenburgPlaces())}
+
+  function d2Img(n){return "https://commons.wikimedia.org/wiki/Special:FilePath/"+encodeURIComponent(n)}
+  function d2StockholmPlaces(){return [
+    {id:"vasa",n:"Museo Vasa",ll:[59.3280,18.0913],imgUrl:d2Img("Stockholm Vasa Museum vasa exterior 19.jpg"),credit:"Wikimedia Commons · licencia en archivo",copy:"El barco del Día 2: construcción, hundimiento y conservación.",tip:{direction:"right",offset:[18,0]}},
+    {id:"rosendal",n:"Rosendals Trädgård",ll:[59.3238,18.1015],imgUrl:d2Img("Greenhouse in Rosendals trädgard, 17.08.2015.jpg"),credit:"Wikimedia Commons · licencia en archivo",copy:"Djurgården como isla de cultivo, jardín y pausa.",tip:{direction:"right",offset:[18,0]}},
+    {id:"stortorget",n:"Stortorget",ll:[59.3250,18.0707],imgUrl:d2Img("Stortorget Stockholm.jpg"),credit:"Wikimedia Commons · licencia en archivo",copy:"La plaza del Día 1: ciudad medieval y memoria del Baño de Sangre.",tip:{direction:"left",offset:[-18,0]}},
+    {id:"storkyrkan",n:"Storkyrkan y Tre Kronor",ll:[59.3257,18.0707],imgUrl:d2Img("Storkyrkan, Stockholm 001.jpg"),credit:"Bernt Fransson · Wikimedia Commons",copy:"El contorno del coro antiguo y el entorno del castillo desaparecido.",tip:{direction:"left",offset:[-18,0]}},
+    {id:"rune",n:"Piedra rúnica U 53",ll:[59.32552,18.07002],img:"runestone-u53.jpg",credit:"Imagen del Día 1 · Wikimedia Commons",copy:"Runas: escritura; el texto está en nórdico antiguo y conserva un mensaje familiar.",tip:{direction:"right",offset:[18,0]}},
+    {id:"alley",n:"Mårten Trotzigs gränd",ll:[59.32472,18.07086],img:"la calle más estrecha de toda la capital sueca.jpg",credit:"Imagen del Día 1",copy:"La calle más estrecha de Estocolmo: pasos, casas pegadas y escaleras de Gamla Stan.",tip:{direction:"right",offset:[18,0]}},
+    {id:"riddarholmen",n:"Riddarholmen",ll:[59.32470,18.06459],imgUrl:d2Img("Rhkyrkan fr staden.jpg"),credit:"Wikimedia Commons · licencia en archivo",copy:"La isla de la iglesia real y una de las siluetas del atardecer.",tip:{direction:"left",offset:[-18,0]}},
+    {id:"cityhall",n:"Ayuntamiento de Estocolmo",ll:[59.32750,18.05420],img:"stockholm-city-hall-exterior.jpg",credit:"Imagen del Día 1 · Wikimedia Commons",copy:"Nobel, Salón Azul, Tres Coronas y torre de 106 metros.",tip:{direction:"left",offset:[-18,0]}},
+    {id:"hornsgatan",n:"Hornsgatan · segunda mano",ll:[59.31930,18.05220],imgUrl:d2Img("Hornsgatan Stockholm.jpg"),credit:"Wikimedia Commons · licencia en archivo",copy:"El tramo de Södermalm con tiendas vintage y segunda mano.",tip:{direction:"right",offset:[18,0]}},
+    {id:"montelius",n:"Monteliusvägen · atardecer",ll:[59.31810,18.05710],img:"monteliusvagen-sunset.jpg",credit:"Imagen del Día 1 · Wikimedia Commons",copy:"El final del paseo: agua, Riddarholmen y Ayuntamiento al caer el sol.",tip:{direction:"right",offset:[18,0]}}
+  ]}
+  function d2StockholmExplorer(){const p=d2StockholmPlaces();return '<section class="d2-city-explorer"><div id="d2-stockholm-real-map" class="d2-real-map" role="img" aria-label="Mapa de Estocolmo con diez paradas"><p>Cargando el mapa real de Estocolmo…</p></div><p class="map-caption">Mapa urbano real: las diez paradas están colocadas por coordenadas. Toca un número o una ficha para destacar el lugar.</p>'+mapPlaceCards("d2sthlm",p)+'</section>'}
+  function bindD2StockholmExplorer(){const p=d2StockholmPlaces(),select=x=>document.querySelectorAll("[data-d2sthlm-place]").forEach(c=>c.classList.toggle("active",c.dataset.d2sthlmPlace===x.id));document.querySelectorAll("[data-d2sthlm-place]").forEach(c=>c.onclick=()=>select(p.find(x=>x.id===c.dataset.d2sthlmPlace)));const start=()=>{const el=$("#d2-stockholm-real-map");if(!el||el.dataset.ready)return;el.dataset.ready="1";const map=L.map(el,{scrollWheelZoom:false,attributionControl:true}),g=L.featureGroup();L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",{maxZoom:19,attribution:"© OpenStreetMap contributors"}).addTo(map);p.forEach((x,i)=>{const icon=L.divIcon({className:"d2-map-number",html:String(i+1),iconSize:[31,31],iconAnchor:[15,15]});const marker=L.marker(x.ll,{icon}).addTo(map).on("click",()=>select(x));marker.bindTooltip((i+1)+" · "+x.n,{permanent:true,direction:x.tip.direction,offset:x.tip.offset,className:"map-place-label"});g.addLayer(marker)});g.addTo(map);map.fitBounds(g.getBounds().pad(.15),{padding:[18,18]});setTimeout(()=>map.invalidateSize(),120)};loadLeaflet(start)}
 
 })();
