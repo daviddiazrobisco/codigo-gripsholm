@@ -237,3 +237,23 @@
   Object.assign(mission.contexts[6],{k:"MIRADOR · LAS TRES CORONAS",title:"Las tres coronas al otro lado del agua"});
   Object.assign(question,{explanation:"Has distinguido el edificio, el Salón Azul y los grandes momentos que conserva.",success:"AYUNTAMIENTO LEÍDO CON PRECISIÓN."});
 })();
+
+// Reconstrucción visual: los diálogos resumen posiciones y decisiones reales; no son citas literales.
+(()=>{
+  const mission=window.DAY1_DATA.missions[7];
+  mission.contexts.unshift({
+    k:"RECONSTRUCCIÓN DIDÁCTICA · 1517–1523",
+    title:"De la fortaleza a la plaza",
+    comicGallery:[
+      {file:"comic-bano-sangre-01-staket.webp",name:"VIÑETA 1 · 1517",alt:"Gustav Trolle y Sten Sture ante la destrucción de Stäket",caption:"Trolle depuesto; su fortaleza es derribada."},
+      {file:"comic-bano-sangre-02-bogesund.webp",name:"VIÑETA 2 · 19 ENE 1520",alt:"Sten Sture herido en la batalla de Bogesund",caption:"El cañonazo cambia el rumbo de la resistencia."},
+      {file:"comic-bano-sangre-03-kristina.webp",name:"VIÑETA 3 · 1520",alt:"Kristina Gyllenstierna toma el mando de la resistencia",caption:"Kristina dirige Estocolmo tras la muerte de Sten."},
+      {file:"comic-bano-sangre-04-rendicion.webp",name:"VIÑETA 4 · SEPTIEMBRE 1520",alt:"Kristina negocia la rendición con Cristián II",caption:"La ciudad abre confiando en la amnistía."},
+      {file:"comic-bano-sangre-05-coronacion.webp",name:"VIÑETA 5 · 4 NOV 1520",alt:"Coronación de Cristián II y banquete en Tre Kronor",caption:"Coronación, cena y una paz aparente."},
+      {file:"comic-bano-sangre-06-herejia.webp",name:"VIÑETA 6 · 7 NOV 1520",alt:"Gustav Trolle invoca la acusación de herejía",caption:"La acusación religiosa rompe la protección política."},
+      {file:"comic-bano-sangre-07-stortorget.webp",name:"VIÑETA 7 · 8–9 NOV 1520",alt:"Stortorget durante el Baño de Sangre de Estocolmo",caption:"No fue una batalla: los detenidos fueron ejecutados."},
+      {file:"comic-bano-sangre-08-rebelion.webp",name:"VIÑETA 8 · 1520–1523",alt:"Gustav Eriksson busca apoyos para la rebelión",caption:"La rebelión crece; Gustav es elegido rey en 1523."}
+    ],
+    html:`<p class="lead">Ocho giros para ordenar la historia antes de recorrer los lugares de Gamla Stan.</p><p class="fine">Los diálogos son una reconstrucción didáctica: condensan posiciones y decisiones documentadas, no son citas literales de los personajes.</p>`
+  });
+})();
