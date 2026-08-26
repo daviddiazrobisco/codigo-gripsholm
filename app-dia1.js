@@ -208,6 +208,8 @@
     if(c.visual==="d4ParkRoutes")bindD4ParkRoutes();
     if(c.visual==="d3OrebroExplorer")bindD3OrebroExplorer();
     if(c.visual==="d5HjoExplorer")bindD5HjoExplorer();
+    if(c.visual==="d6HansaExplorer")bindD6HansaExplorer();
+    if(c.visual==="d6GothenburgExplorer")bindD6GothenburgExplorer();
     if(c.speech)bindSpeech(c.speech);
     const last=state.contextPage===m.contexts.length-1;
     setActions([{label:c.action||(last?(m.consultation?"Cerrar el mapa":"Ir al reto"):"Continuar"),run:()=>{if(last){state.key=0;state.stage=m.consultation?"missionEnd":"key"}else state.contextPage++;save();render()}}],!!c.dark);
@@ -951,7 +953,7 @@
   $("#restart-btn").onclick=()=>{if(confirm(`¿Borrar todo el progreso del Día ${DAY}?`)){localStorage.removeItem(STORE);state=fresh();$("#menu-dialog").close();render()}};
   if("serviceWorker" in navigator&&location.protocol!=="file:")navigator.serviceWorker.register("service-worker.js?v=8-13").catch(()=>{});
   render();
-  function mapPlaceCards(kind,places){return `<div class="map-place-cards ${kind}-place-cards" aria-label="Paradas del mapa">${places.map((p,i)=>`<button type="button" class="map-place-card" data-${kind}-place="${p.id}"><span class="map-place-number">${i+1}</span><figure><img src="${imgBase+p.img}" alt="${p.n}"><figcaption>${p.credit}</figcaption></figure><span class="map-place-copy"><b>${p.n}</b><small>${p.copy}</small></span></button>`).join("")}</div>`}
+  function mapPlaceCards(kind,places){return `<div class="map-place-cards ${kind}-place-cards" aria-label="Paradas del mapa">${places.map((p,i)=>`<button type="button" class="map-place-card" data-${kind}-place="${p.id}"><span class="map-place-number">${i+1}</span><figure><img src="${p.imgUrl||imgBase+p.img}" alt="${p.n}"><figcaption>${p.credit}</figcaption></figure><span class="map-place-copy"><b>${p.n}</b><small>${p.copy}</small></span></button>`).join("")}</div>`}
   function d4ParkRoutes(){const places=d4ParkPlaces();return `<section class="tiveden-park-map"><div id="d4-real-map" class="tiveden-real-map" role="img" aria-label="Mapa geográfico de Tiveden con cuatro rutas oficiales y cinco paradas"><p>Cargando el mapa real del parque…</p></div><div class="tiveden-route-key"><span><i style="--route:#7650a1"></i><b>Trehörningsrundan</b><small>9,5 km · 4–5 h</small></span><span><i style="--route:#fff"></i><b>Junker jägarerundan</b><small>2,8 km · 1 h 30</small></span><span><i style="--route:#2f7b68"></i><b>Stigmansrundan</b><small>4,2 km · ~3 h</small></span><span><i style="--route:#c44738"></i><b>Trollkyrkorundan</b><small>4,6 km · ~3 h</small></span></div><p class="map-caption">Base geográfica real de OpenStreetMap. Las rutas se dibujan desde los archivos GPX oficiales; por eso el agua, los caminos y las distancias se ven en su sitio.</p><p class="map-caption map-caption-strong">Cada número tiene su ficha visible: foto, nombre y explicación breve.</p>${mapPlaceCards("d4",places)}</section>`}
   function d4ParkPlaces(){return [
       {id:"vitsand",n:"Vitsand",ll:[58.72877,14.56925],img:"vitsand-playa-2026.jpg",credit:"Foto aportada para este cuaderno, 2026",copy:"Playa de arena clara y orilla de entrada suave. Está junto al inicio de la ruta de Junker; si el tiempo acompaña, es un buen lugar para parar o bañarse con prudencia.",tip:{direction:"left",offset:[-18,14]}},
@@ -1025,4 +1027,27 @@
     document.querySelectorAll("[data-d5hjo-place]").forEach(card=>card.onclick=()=>select(places.find(p=>p.id===card.dataset.d5hjoPlace)));
     loadLeaflet(start);
   }
+  function d6Img(n){return "https://commons.wikimedia.org/wiki/Special:FilePath/"+encodeURIComponent(n)}
+  function d6HansaPlaces(){return [
+    {id:"lodose",n:"Lödöse Museum",ll:[58.029,12.160],imgUrl:d6Img("Lödöse museum.jpg"),credit:"Wikimedia Commons · licencia en archivo",copy:"La salida medieval río arriba: comercio anterior y mundo de la Hansa.",tip:{direction:"right",offset:[18,0]}},
+    {id:"statue",n:"Gustaf Adolfs torg",ll:[57.70712,11.96682],imgUrl:d6Img("Gustav II Adolf Göteborg.jpg"),credit:"Gegik · CC0 · Wikimedia Commons",copy:"La tradición coloca aquí el gesto del rey; la fundación de 1621 está documentada.",tip:{direction:"left",offset:[-18,0]}},
+    {id:"wall",n:"Bastión Carolus Rex XI",ll:[57.70251,11.95638],imgUrl:d6Img("Goteborg Esperantoplats bastion 2.jpg"),credit:"Wikimedia Commons · licencia en archivo",copy:"Un resto visible de las murallas que protegían la nueva ciudad.",tip:{direction:"left",offset:[-18,0]}}
+  ]}
+  function d6GothenburgPlaces(){return [
+    {id:"king",n:"Estatua de Gustavo II Adolfo",ll:[57.70712,11.96682],imgUrl:d6Img("Gustav II Adolf Göteborg.jpg"),credit:"Gegik · CC0 · Wikimedia Commons",copy:"El rey fundador señala hacia el suelo: la decisión de levantar la ciudad junto al mar.",tip:{direction:"right",offset:[18,0]}},
+    {id:"canal",n:"Stora Hamnkanalen",ll:[57.70665,11.96615],imgUrl:d6Img("Göteborg - Stora Hamnkanalen.jpg"),credit:"Wikimedia Commons · licencia en archivo",copy:"Canal, drenaje y foso: el agua como infraestructura de ciudad.",tip:{direction:"right",offset:[18,0]}},
+    {id:"museum",n:"Museo de Gotemburgo",ll:[57.70496,11.96538],imgUrl:d6Img("Ostindiska huset Göteborg.jpg"),credit:"Wikimedia Commons · licencia en archivo",copy:"La antigua Casa de las Indias Orientales: té, porcelana, China y puerto.",tip:{direction:"left",offset:[-18,0]}},
+    {id:"wall",n:"Bastión Carolus Rex XI",ll:[57.70251,11.95638],imgUrl:d6Img("Goteborg Esperantoplats bastion 2.jpg"),credit:"Wikimedia Commons · licencia en archivo",copy:"La huella visible de la ciudad-fortaleza.",tip:{direction:"left",offset:[-18,0]}},
+    {id:"fesk",n:"Feskekôrka",ll:[57.70210,11.95790],imgUrl:d6Img("00 3022 Göteborg - Markthallen.jpg"),credit:"Wikimedia Commons · licencia en archivo",copy:"La iglesia del pescado: una lonja, no una iglesia.",tip:{direction:"right",offset:[18,0]}},
+    {id:"haga",n:"Haga Nygata · Café Husaren",ll:[57.69855,11.95292],imgUrl:"https://images.squarespace-cdn.com/content/v1/633dd21bf7a9cc213c36b622/dec4fc04-8a50-460b-9237-077c52571eb7/FB%2Boch%2Bhemsida-A7C02391.jpg",credit:"Café Husaren · referencia visual",copy:"Casas de piedra y madera; aquí toca compartir el Hagabullen gigante.",tip:{direction:"right",offset:[18,0]}},
+    {id:"skansen",n:"Skansen Kronan",ll:[57.69600,11.95020],imgUrl:"https://cms.goteborg.com/uploads/2020/12/skansen-kronan-host-43-1500x1125.jpg",credit:"Göteborg & Co · referencia visual",copy:"Defensa desde la colina y vista para leer toda la ciudad.",tip:{direction:"left",offset:[-18,0]}},
+    {id:"botanical",n:"Jardín Botánico",ll:[57.68170,11.94940],imgUrl:d6Img("Göteborgs botaniska trädgård-IMG 2224.jpg"),credit:"Wikimedia Commons · licencia en archivo",copy:"Parada obligada: ciencia, conservación y paseo desde 1923; abierto 24 horas.",tip:{direction:"right",offset:[18,0]}}
+  ]}
+  function d6Explorer(kind,places,aria){return '<section class="d6-city-explorer"><div id="'+kind+'-real-map" class="d6-real-map" role="img" aria-label="'+aria+'"><p>Cargando el mapa real…</p></div><p class="map-caption">Mapa real con coordenadas reales. Toca un número o una ficha para destacar el lugar.</p>'+mapPlaceCards(kind,places)+'</section>'}
+  function bindD6Explorer(kind,places){const select=p=>document.querySelectorAll("[data-"+kind+"-place]").forEach(c=>c.classList.toggle("active",c.dataset[kind+"Place"]===p.id));document.querySelectorAll("[data-"+kind+"-place]").forEach(c=>c.onclick=()=>select(places.find(p=>p.id===c.dataset[kind+"Place"])));const start=()=>{const el=$("#"+kind+"-real-map");if(!el||el.dataset.ready)return;el.dataset.ready="1";const map=L.map(el,{scrollWheelZoom:false,attributionControl:true}),group=L.featureGroup();L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",{maxZoom:19,attribution:"© OpenStreetMap contributors"}).addTo(map);places.forEach((p,i)=>{const icon=L.divIcon({className:"d6-map-number",html:String(i+1),iconSize:[31,31],iconAnchor:[15,15]});const marker=L.marker(p.ll,{icon}).addTo(map).on("click",()=>select(p));marker.bindTooltip((i+1)+" · "+p.n,{permanent:true,direction:p.tip.direction,offset:p.tip.offset,className:"map-place-label"});group.addLayer(marker)});group.addTo(map);map.fitBounds(group.getBounds().pad(.16),{padding:[18,18]});setTimeout(()=>map.invalidateSize(),120)};loadLeaflet(start)}
+  function d6HansaExplorer(){return d6Explorer("d6hansa",d6HansaPlaces(),"Mapa de Lödöse y Gotemburgo")}
+  function bindD6HansaExplorer(){bindD6Explorer("d6hansa",d6HansaPlaces())}
+  function d6GothenburgExplorer(){return d6Explorer("d6gbg",d6GothenburgPlaces(),"Mapa urbano de Gotemburgo")}
+  function bindD6GothenburgExplorer(){bindD6Explorer("d6gbg",d6GothenburgPlaces())}
+
 })();
