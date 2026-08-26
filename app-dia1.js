@@ -254,9 +254,11 @@
   }
   function trueFalseMarkup(q,scope){
     const p=prog(scope), index=p.index||0, item=q.items[index];
-    if(!item)return `<section class="puzzle-card"><p class="kicker">RETO COMPLETADO</p><p>${q.explanation||"Has comprobado las cinco afirmaciones."}</p></section>`;
+    if(!item){const rs=p.results||[],ok=rs.filter(x=>x.ok).length;return `<section class="puzzle-card"><p class="kicker">RETO COMPLETADO</p><h3>${ok} de ${rs.length} aciertos</h3><p>${q.explanation||"Has comprobado las afirmaciones."}</p></section>`;}
     const answered=typeof p.answer==="boolean";
-    return `<section class="puzzle-card true-false-card"><p class="kicker">AFIRMACIÓN ${index+1} DE ${q.items.length}</p><h3>${esc(item.label)}</h3>${answered?`<div class="feedback ${p.answer===item.answer?"":"bad"}"><strong>${p.answer===item.answer?"CORRECTO":"NO EXACTAMENTE"}</strong><p>${item.explanation}</p></div>`:`<div class="options"><button type="button" class="option" data-true-false="true">Verdadero</button><button type="button" class="option" data-true-false="false">Falso</button></div>`}</section>`;
+    const timer=!answered&&q.timeLimit?`<div class="speed-timer" aria-live="polite">⏱ <b id="true-false-seconds">${q.timeLimit}</b> segundos</div>`:"";
+    const status=p.timedOut?"TIEMPO AGOTADO":p.answer===item.answer?"CORRECTO":"NO EXACTAMENTE";
+    return `<section class="puzzle-card true-false-card"><p class="kicker">AFIRMACIÓN ${index+1} DE ${q.items.length}</p>${timer}<h3>${esc(item.label)}</h3>${answered?`<div class="feedback ${p.answer===item.answer&&!p.timedOut?"":"bad"}"><strong>${status}</strong><p>${item.explanation}</p></div>`:`<div class="options"><button type="button" class="option" data-true-false="true">Verdadero</button><button type="button" class="option" data-true-false="false">Falso</button></div>`}</section>`;
   }
   function speechQuestionMarkup(q,scope){
     const p=prog(scope);
@@ -326,11 +328,27 @@
   function bindTrueFalse(q,scope,correction){
     const p=prog(scope),index=p.index||0,item=q.items[index];
     if(!item)return complete(q,scope,correction);
+    const resolve=(answer,timedOut=false)=>{
+      if(typeof p.answer==="boolean")return;
+      p.answer=answer;p.timedOut=timedOut;p.results||=[];p.results.push({ok:!timedOut&&answer===item.answer});
+      delete p.timerKey;markAttempt(q,scope,!timedOut&&answer===item.answer,correction);save();renderCurrent(q,correction);
+    };
     if(typeof p.answer!=="boolean"){
-      screen.querySelectorAll("[data-true-false]").forEach(b=>b.onclick=()=>{p.answer=b.dataset.trueFalse==="true";markAttempt(q,scope,p.answer===item.answer,correction);save();renderCurrent(q,correction)});
-      return setActions([{label:"Elige verdadero o falso",disabled:true,run:()=>{}}]);
+      screen.querySelectorAll("[data-true-false]").forEach(b=>b.onclick=()=>resolve(b.dataset.trueFalse==="true"));
+      if(q.timeLimit){
+        const seconds=Math.max(1,Number(q.timeLimit)||5),token=`${index}-${Date.now()}`;p.timerKey=token;
+        const started=Date.now(),tick=()=>{
+          if(p.timerKey!==token||p.index!==index||typeof p.answer==="boolean")return;
+          const left=Math.max(0,seconds-Math.floor((Date.now()-started)/1000)),el=$("#true-false-seconds");
+          if(el)el.textContent=left;
+          if(left<=0)return resolve(!item.answer,true);
+          setTimeout(tick,120);
+        };
+        setTimeout(tick,120);
+      }
+      return setActions([{label:q.timeLimit?`${q.timeLimit} segundos para responder`:"Elige verdadero o falso",disabled:true,run:()=>{}}]);
     }
-    setActions([{label:index===q.items.length-1?"Cerrar el reto":"Siguiente afirmación",run:()=>{p.index=index+1;delete p.answer;save();if(p.index>=q.items.length)complete(q,scope,correction);else renderCurrent(q,correction)}}]);
+    setActions([{label:index===q.items.length-1?"Ver resultado":"Siguiente afirmación",run:()=>{p.index=index+1;delete p.answer;delete p.timedOut;delete p.timerKey;save();if(p.index>=q.items.length)complete(q,scope,correction);else renderCurrent(q,correction)}}]);
   }
   function bindSpeechQuestion(q,scope,correction){
     const p=prog(scope);
