@@ -598,6 +598,8 @@
     if(kind==="d5LakeLife")return d5LakeLifeCard();
     if(kind==="d5Hjo")return d5HjoMap();
     if(kind==="d5HjoExplorer")return d5HjoExplorer();
+    if(kind==="d6HansaExplorer")return d6HansaExplorer();
+    if(kind==="d6GothenburgExplorer")return d6GothenburgExplorer();
     if(kind==="d5Culture")return d5CultureCard();
     if(kind==="d5Trafik")return d5TrafikCard();
     if(kind==="d5Swedish")return d5SwedishCard();
