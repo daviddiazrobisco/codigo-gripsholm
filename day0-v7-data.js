@@ -27,18 +27,28 @@ window.DAY0_V7_MISSIONS = [
       { id: 'm3-water', type: 'waterPlacement', title: 'Mares, lagos y una ciudad entre aguas', prompt: 'Devuelve cada nombre al mapa. Los lagos tienen contorno real; los mares ocupan zonas abiertas.', items: [['baltic','mar Báltico',19.5,57],['bothnia','golfo de Botnia',20,63],['kattegat','Kattegat',11.5,57.4],['vanern','Vänern',13.4,58.9],['vattern','Vättern',14.5,58.3],['malaren','Mälaren',17.3,59.5]], hint: 'El golfo de Botnia es el brazo largo del Báltico entre Suecia y Finlandia. Kattegat queda frente a Gotemburgo.', explanation: 'El Báltico es la gran fachada oriental de Suecia. Kattegat y Skagerrak conectan su costa occidental con el mar del Norte; Mälaren, Vänern y Vättern explican muchas rutas interiores.' },
       { id: 'm3-city', type: 'stockholm', title: '¿Dónde tiene sentido una ciudad-puerto?', prompt: '«La ciudad debía estar donde ningún barco pudiera pasar entre Mälaren y Báltico sin ser visto». Marca A, B o C.', answer: 'B', hint: 'Busca el paso obligado entre el lago y el mar.', explanation: 'Estocolmo creció en el estrecho entre Mälaren y el Báltico. Esa posición servía para rutas, defensa, comercio e impuestos.' },
       { id: 'm3-coast', type: 'single', title: 'El informe de la costa cerrada', prompt: 'Alguien ha escrito: «Noruega cerró a Suecia el acceso al mar». ¿Qué frase es la verdadera?', options: ['Noruega estuvo constantemente en guerra con Suecia para bloquear su acceso al mar.', 'Suecia nunca necesitó llegar al mar y por eso no tiene salida al mar.', 'Suecia conserva una gran costa báltica y una salida occidental por Gotemburgo.'], answer: 2, hint: 'Mira las dos costas y recuerda que las fronteras se formaron durante siglos.', explanation: 'Suecia tiene costa al este, junto al mar Báltico. Al oeste tiene salida por Kattegat, al sur, entre Suecia y Dinamarca, y por Skagerrak, al norte, entre Suecia y Noruega, que se abre hacia el mar del Norte.' },
-      { id: 'm3-swedish-signals', type: 'trueFalse', optional: true, title: 'Señales suecas', prompt: 'Decide si cada palabra o afirmación es sueca. No es un examen: cada tarjeta explica la respuesta antes de continuar.', explanation: 'Ya puedes reconocer algunas señales suecas sin confundirlas con las de sus vecinas.', items: [
-        { label: 'IKEA', answer: true, explanation: 'Verdadero. IKEA nació en Suecia en 1943.' },
-        { label: 'LEGO', answer: false, explanation: 'Falso. LEGO es una empresa danesa.' },
-        { label: 'Alfred Nobel', answer: true, explanation: 'Verdadero. Alfred Nobel fue un inventor y empresario sueco.' },
-        { label: 'Spotify', answer: true, explanation: 'Verdadero. Spotify se fundó en Suecia.' },
-        { label: 'Nokia', answer: false, explanation: 'Falso. Nokia es una empresa finlandesa.' },
-        { label: 'Volvo', answer: true, explanation: 'Verdadero. Volvo nació en Gotemburgo.' },
-        { label: 'ABBA', answer: true, explanation: 'Verdadero. ABBA es un grupo sueco.' },
-        { label: 'Björk', answer: false, explanation: 'Falso. Björk es islandesa.' },
-        { label: 'Zara', answer: false, explanation: 'Falso. Zara nació en España.' },
-        { label: 'El Nobel de la Paz se entrega en Estocolmo', answer: false, explanation: 'Falso. El Nobel de la Paz se entrega en Oslo.' },
-        { label: 'Los demás premios Nobel se entregan en Estocolmo', answer: true, explanation: 'Verdadero. Física, Química, Medicina, Literatura y Economía se entregan en Estocolmo.' }
+      { id: 'm3-swedish-signals', type: 'trueFalse', optional: true, timeLimit: 5, title: 'Suecia en 100 segundos', prompt: 'Veinte pistas. Tienes cinco segundos por tarjeta: si el tiempo se agota, cuenta como fallo y se abre la explicación.', explanation: 'Has unido cultura popular, premios Nobel y decisiones históricas que reaparecerán durante el viaje.', items: [
+        { label: 'IKEA nació en Suecia.', answer: true, explanation: 'Verdadero. Nació en 1943. Su nombre reúne las iniciales de Ingvar Kamprad, Elmtaryd y Agunnaryd.' },
+        { label: 'LEGO es una empresa sueca.', answer: false, explanation: 'Falso. LEGO es una empresa danesa.' },
+        { label: 'Pippi Calzaslargas nació en Suecia.', answer: true, explanation: 'Verdadero. Astrid Lindgren publicó a Pippi en sueco en 1945.' },
+        { label: 'Vicky el Vikingo nació en unos libros infantiles suecos.', answer: true, explanation: 'Verdadero. Lo creó el escritor sueco Runer Jonsson; los dibujos animados posteriores fueron una coproducción internacional.' },
+        { label: 'ABBA es un grupo sueco.', answer: true, explanation: 'Verdadero. Su nombre reúne las iniciales de Agnetha, Björn, Benny y Anni-Frid.' },
+        { label: 'Björk es sueca.', answer: false, explanation: 'Falso. Björk es islandesa.' },
+        { label: 'Volvo nació en Gotemburgo.', answer: true, explanation: 'Verdadero. La marca se fundó allí en 1927.' },
+        { label: 'Nokia nació en Suecia.', answer: false, explanation: 'Falso. Nokia es finlandesa.' },
+        { label: 'Spotify se fundó en Suecia.', answer: true, explanation: 'Verdadero. Nació en Estocolmo en 2006.' },
+        { label: 'Zara nació en Suecia.', answer: false, explanation: 'Falso. Zara nació en Galicia, España.' },
+        { label: 'Alfred Nobel era sueco.', answer: true, explanation: 'Verdadero. Fue un inventor y empresario sueco; dejó en su testamento los premios Nobel.' },
+        { label: 'El Nobel de la Paz se entrega en Estocolmo.', answer: false, explanation: 'Falso. Se entrega en Oslo. Las demás ceremonias se celebran en Estocolmo.' },
+        { label: 'El premio de Economía estaba en el testamento original de Alfred Nobel.', answer: false, explanation: 'Falso. Se creó en 1968 por el banco central de Suecia, en memoria de Nobel, y se entrega desde 1969.' },
+        { label: 'Federico García Lorca recibió el Nobel de Literatura.', answer: false, explanation: 'Falso. Los españoles que sí recibieron el Nobel de Literatura fueron José Echegaray (1904), Jacinto Benavente (1922), Juan Ramón Jiménez (1956), Vicente Aleixandre (1977) y Camilo José Cela (1989).' },
+        { label: 'José Echegaray recibió el Nobel de Literatura.', answer: true, explanation: 'Verdadero. Lo ganó en 1904; además fue ingeniero, matemático, político y dramaturgo.' },
+        { label: 'Ramón y Cajal recibió el Nobel por estudiar el sistema nervioso.', answer: true, explanation: 'Verdadero. Ganó el Nobel de Medicina en 1906, compartido con Camillo Golgi.' },
+        { label: 'Severo Ochoa recibió un Nobel de Medicina.', answer: true, explanation: 'Verdadero. Nació en España y recibió el Nobel de Medicina en 1959 por investigaciones sobre el material genético.' },
+        { label: 'Suecia lleva más de doscientos años sin entrar en una guerra.', answer: true, explanation: 'Verdadero. Su último conflicto fue en 1814.' },
+        { label: 'El país con el que Suecia luchó más veces fue Dinamarca.', answer: true, explanation: 'Verdadero. Durante siglos fueron rivales por el control del Báltico y Escandinavia.' },
+        { label: 'Finlandia ya era independiente cuando Suecia luchó contra Rusia en 1808.', answer: false, explanation: 'Falso. Finlandia era parte de Suecia; tras la guerra pasó al Imperio ruso y no se independizó hasta 1917.' }
+      ] }
       ] }
     ]
   },
