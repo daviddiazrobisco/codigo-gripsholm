@@ -49,7 +49,6 @@ window.DAY0_V7_MISSIONS = [
         { label: 'El país con el que Suecia luchó más veces fue Dinamarca.', answer: true, explanation: 'Verdadero. Durante siglos fueron rivales por el control del Báltico y Escandinavia.' },
         { label: 'Finlandia ya era independiente cuando Suecia luchó contra Rusia en 1808.', answer: false, explanation: 'Falso. Finlandia era parte de Suecia; tras la guerra pasó al Imperio ruso y no se independizó hasta 1917.' }
       ] }
-      ] }
     ]
   },
   {
